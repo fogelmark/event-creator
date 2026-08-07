@@ -357,7 +357,7 @@ export default function Home() {
 
       {/* FOOTER */}
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 border-t border-[oklch(24%_0.012_250)] px-8 py-10">
-        <div className="font-(family-name:--font-unbounded) text-base font-extrabold">
+        <div className="font-(family-name:--font-unbounded) font-extrabold">
           SENDIT
         </div>
         <div className="flex gap-7 text-[13.5px] text-[oklch(55%_0.012_250)]">
