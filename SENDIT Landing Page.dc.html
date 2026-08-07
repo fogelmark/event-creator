@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: oklch(14% 0.012 250); }
+  ::selection { background: oklch(78% 0.19 135); color: oklch(14% 0.012 250); }
+  a { color: oklch(78% 0.19 135); text-decoration: none; }
+  a:hover { color: oklch(88% 0.19 135); }
+  .stripes { background-image: repeating-linear-gradient(135deg, oklch(24% 0.012 250) 0px, oklch(24% 0.012 250) 2px, oklch(20% 0.012 250) 2px, oklch(20% 0.012 250) 14px); }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
+</style>
+</helmet>
+
+<div style="font-family:'Manrope',sans-serif;color:oklch(95% 0.006 250);background:oklch(14% 0.012 250);width:100%;overflow-x:hidden;">
+
+  <!-- NAV -->
+  <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:28px 32px;">
+    <div style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:20px;letter-spacing:0.02em;">SENDIT</div>
+    <div style="display:flex;align-items:center;gap:36px;">
+      <a href="#how-it-works" style="display:none;color:oklch(75% 0.01 250);font-size:14px;font-weight:600;" class="nav-link-desktop">How it works</a>
+      <a href="#pricing" style="color:oklch(75% 0.01 250);font-size:14px;font-weight:600;">Pricing</a>
+      <a href="#" style="color:oklch(75% 0.01 250);font-size:14px;font-weight:600;">Log in</a>
+      <a href="#" style="background:oklch(95% 0.006 250);color:oklch(14% 0.012 250);padding:11px 20px;border-radius:100px;font-size:14px;font-weight:700;" style-hover="background:oklch(78% 0.19 135);color:oklch(14% 0.012 250);">Start free trial</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div style="max-width:1280px;margin:0 auto;padding:64px 32px 40px;display:grid;grid-template-columns:1.1fr 0.9fr;gap:64px;align-items:center;">
+    <div>
+      <div style="display:inline-flex;align-items:center;gap:8px;border:1px solid oklch(32% 0.012 250);border-radius:100px;padding:7px 14px;font-size:12.5px;font-weight:600;color:oklch(78% 0.19 135);letter-spacing:0.03em;text-transform:uppercase;margin-bottom:28px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:oklch(78% 0.19 135);animation:pulse 2s ease-in-out infinite;"></span>
+        Built for the music industry
+      </div>
+      <h1 style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:50px;line-height:1.08;letter-spacing:-0.01em;margin:0 0 24px;">Branded invites, out the door in minutes.</h1>
+      <p style="font-size:19px;line-height:1.55;color:oklch(72% 0.012 250);max-width:460px;margin:0 0 36px;">SENDIT is the invite builder made for labels, management companies, and publishers — release parties, listening sessions, showcases, VIP guestlists. Design it, send the link, watch the RSVPs come in.</p>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <a href="#" style="background:oklch(78% 0.19 135);color:oklch(14% 0.012 250);padding:16px 28px;border-radius:100px;font-size:15px;font-weight:700;" style-hover="background:oklch(88% 0.19 135);">Create your invite</a>
+        <a href="#pricing" style="color:oklch(90% 0.006 250);font-size:15px;font-weight:600;border-bottom:1px solid oklch(40% 0.012 250);padding-bottom:2px;">See pricing →</a>
+      </div>
+    </div>
+
+    <div style="position:relative;">
+      <div style="background:oklch(20% 0.012 250);border:1px solid oklch(30% 0.012 250);border-radius:20px;padding:20px;box-shadow:0 40px 80px -20px oklch(5% 0 0 / 0.6);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+          <span style="width:8px;height:8px;border-radius:50%;background:oklch(45% 0.01 250);"></span>
+          <span style="width:8px;height:8px;border-radius:50%;background:oklch(45% 0.01 250);"></span>
+          <span style="width:8px;height:8px;border-radius:50%;background:oklch(45% 0.01 250);"></span>
+          <span style="margin-left:8px;font-size:11px;color:oklch(55% 0.01 250);font-family:ui-monospace,monospace;">sendit.co/i/nocturne-listening</span>
+        </div>
+        <div class="stripes" style="border-radius:12px;aspect-ratio:9/13;display:flex;flex-direction:column;justify-content:flex-end;padding:28px;position:relative;overflow:hidden;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top, oklch(14% 0.012 250 / 0.92), oklch(14% 0.012 250 / 0.1) 55%);"></div>
+          <div style="position:relative;z-index:1;">
+            <div style="font-size:11px;font-family:ui-monospace,monospace;color:oklch(78% 0.19 135);letter-spacing:0.05em;text-transform:uppercase;margin-bottom:10px;">invite preview — image drop zone</div>
+            <div style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:30px;line-height:1.05;margin-bottom:10px;">NOCTURNE<br>LISTENING SESSION</div>
+            <div style="font-size:13.5px;color:oklch(78% 0.012 250);line-height:1.5;margin-bottom:18px;">Fri Sept 12 · 9:00 PM<br>The Vault, Los Angeles<br>VIP + Press only</div>
+            <div style="background:oklch(95% 0.006 250);color:oklch(14% 0.012 250);text-align:center;padding:12px;border-radius:100px;font-size:13px;font-weight:700;">RSVP</div>
+          </div>
+        </div>
+      </div>
+      <div style="position:absolute;top:-16px;right:-16px;background:oklch(78% 0.19 135);color:oklch(14% 0.012 250);font-family:ui-monospace,monospace;font-size:11.5px;font-weight:700;padding:8px 12px;border-radius:8px;transform:rotate(4deg);">142 RSVPs · 38 VIP</div>
+    </div>
+  </div>
+
+  <!-- SOCIAL PROOF -->
+  <div style="max-width:1280px;margin:0 auto;padding:56px 32px;border-top:1px solid oklch(24% 0.012 250);">
+    <div style="text-align:center;font-size:12.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:oklch(50% 0.012 250);margin-bottom:32px;">Trusted by teams across the industry</div>
+    <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:16px;">
+      <sc-for list="{{ logoPlaceholders }}" as="logo" hint-placeholder-count="6">
+        <div style="border:1px solid oklch(26% 0.012 250);border-radius:8px;padding:16px 28px;font-family:ui-monospace,monospace;font-size:12px;color:oklch(48% 0.012 250);letter-spacing:0.04em;">{{ logo }}</div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div id="how-it-works" style="max-width:1280px;margin:0 auto;padding:96px 32px;border-top:1px solid oklch(24% 0.012 250);">
+    <div style="max-width:560px;margin:0 0 64px;">
+      <div style="font-size:12.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(78% 0.19 135);margin-bottom:14px;">How it works</div>
+      <h2 style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:42px;line-height:1.05;margin:0;">From blank page to live invite before soundcheck.</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px;">
+      <div style="border-top:1px solid oklch(30% 0.012 250);padding-top:24px;">
+        <div style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:15px;color:oklch(78% 0.19 135);margin-bottom:20px;">01</div>
+        <h3 style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:22px;margin:0 0 12px;">Build your invite</h3>
+        <p style="font-size:15px;line-height:1.6;color:oklch(65% 0.012 250);margin:0;">Drop in your logo, imagery, and event details with a simple CMS-style editor. No designer needed, no template it feels like everyone else used.</p>
+      </div>
+      <div style="border-top:1px solid oklch(30% 0.012 250);padding-top:24px;">
+        <div style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:15px;color:oklch(78% 0.19 135);margin-bottom:20px;">02</div>
+        <h3 style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:22px;margin:0 0 12px;">Share your link</h3>
+        <p style="font-size:15px;line-height:1.6;color:oklch(65% 0.012 250);margin:0;">Every event gets one clean, branded URL. Send it over text, email, or DM — it opens instantly, built mobile-first.</p>
+      </div>
+      <div style="border-top:1px solid oklch(30% 0.012 250);padding-top:24px;">
+        <div style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:15px;color:oklch(78% 0.19 135);margin-bottom:20px;">03</div>
+        <h3 style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:22px;margin:0 0 12px;">Track your RSVPs</h3>
+        <p style="font-size:15px;line-height:1.6;color:oklch(65% 0.012 250);margin:0;">Watch responses roll in on one simple guest list. Sort by tier, check people in, done.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div style="max-width:1280px;margin:0 auto;padding:96px 32px;border-top:1px solid oklch(24% 0.012 250);">
+    <div style="max-width:560px;margin:0 0 64px;">
+      <div style="font-size:12.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(78% 0.19 135);margin-bottom:14px;">Built for how the industry actually runs events</div>
+      <h2 style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:42px;line-height:1.05;margin:0;">Everything you need. Nothing you don't.</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:oklch(24% 0.012 250);border:1px solid oklch(24% 0.012 250);">
+      <div style="background:oklch(14% 0.012 250);padding:40px;">
+        <h3 style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:19px;margin:0 0 10px;">Custom branding, per event</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:oklch(62% 0.012 250);margin:0;">Every invite carries your label's look — not a generic ticketing skin. Different artists, different vibes, same builder.</p>
+      </div>
+      <div style="background:oklch(14% 0.012 250);padding:40px;">
+        <h3 style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:19px;margin:0 0 10px;">Guest tiers built in</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:oklch(62% 0.012 250);margin:0;">VIP, press, general, plus-one — assign tiers on invite and filter your guest list the same way.</p>
+      </div>
+      <div style="background:oklch(14% 0.012 250);padding:40px;">
+        <h3 style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:19px;margin:0 0 10px;">Fast turnaround</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:oklch(62% 0.012 250);margin:0;">Events get booked last-minute. Go from blank invite to a live, shareable link in the same afternoon.</p>
+      </div>
+      <div style="background:oklch(14% 0.012 250);padding:40px;">
+        <h3 style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:19px;margin:0 0 10px;">Mobile-first pages</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:oklch(62% 0.012 250);margin:0;">Guests open invites on their phones, always. Every page is designed for that screen first, desktop second.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPARISON -->
+  <div style="background:oklch(20% 0.012 250);padding:96px 32px;border-top:1px solid oklch(24% 0.012 250);border-bottom:1px solid oklch(24% 0.012 250);">
+    <div style="max-width:720px;margin:0 auto;text-align:center;">
+      <h2 style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:36px;line-height:1.2;margin:0 0 20px;">You're not running a music festival. You don't need a platform built for one.</h2>
+      <p style="font-size:17px;line-height:1.6;color:oklch(68% 0.012 250);margin:0 0 8px;">SENDIT skips the ticketing fees, the CRM modules, and the enterprise sales calls — and gets you a beautiful invite page for a flat monthly rate instead.</p>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div id="pricing" style="max-width:1280px;margin:0 auto;padding:96px 32px;">
+    <div style="text-align:center;max-width:560px;margin:0 auto 64px;">
+      <div style="font-size:12.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:oklch(78% 0.19 135);margin-bottom:14px;">Pricing</div>
+      <h2 style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:42px;line-height:1.05;margin:0 0 16px;">Flat monthly plans. No per-ticket fees.</h2>
+      <p style="font-size:16px;color:oklch(65% 0.012 250);margin:0;">No setup fees. No per-ticket charges. Cancel anytime.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+      <div style="border:1px solid oklch(28% 0.012 250);border-radius:16px;padding:36px;">
+        <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:16px;margin-bottom:8px;">Starter</div>
+        <div style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:38px;margin-bottom:4px;">$49<span style="font-size:16px;font-weight:600;color:oklch(60% 0.012 250);">/mo</span></div>
+        <div style="font-size:13.5px;color:oklch(58% 0.012 250);margin-bottom:28px;">Up to 3 events per month</div>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:14px;color:oklch(75% 0.012 250);margin-bottom:32px;">
+          <div>Core invite builder</div>
+          <div>RSVP tracking</div>
+          <div>Mobile-first pages</div>
+        </div>
+        <a href="#" style="display:block;text-align:center;border:1px solid oklch(40% 0.012 250);color:oklch(92% 0.006 250);padding:13px;border-radius:100px;font-size:14px;font-weight:700;" style-hover="border-color:oklch(78% 0.19 135);color:oklch(78% 0.19 135);">Start free trial</a>
+      </div>
+      <div style="border:1px solid oklch(78% 0.19 135);border-radius:16px;padding:36px;background:oklch(20% 0.012 250);position:relative;">
+        <div style="position:absolute;top:-13px;left:36px;background:oklch(78% 0.19 135);color:oklch(14% 0.012 250);font-size:11.5px;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;padding:5px 12px;border-radius:100px;">Most popular</div>
+        <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:16px;margin-bottom:8px;">Pro</div>
+        <div style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:38px;margin-bottom:4px;">$149<span style="font-size:16px;font-weight:600;color:oklch(60% 0.012 250);">/mo</span></div>
+        <div style="font-size:13.5px;color:oklch(58% 0.012 250);margin-bottom:28px;">Unlimited events</div>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:14px;color:oklch(80% 0.012 250);margin-bottom:32px;">
+          <div>Everything in Starter</div>
+          <div>Custom branding per event</div>
+          <div>Guest tiers (VIP, press, plus-one)</div>
+          <div>Priority support</div>
+        </div>
+        <a href="#" style="display:block;text-align:center;background:oklch(78% 0.19 135);color:oklch(14% 0.012 250);padding:13px;border-radius:100px;font-size:14px;font-weight:700;" style-hover="background:oklch(88% 0.19 135);">Start free trial</a>
+      </div>
+      <div style="border:1px solid oklch(28% 0.012 250);border-radius:16px;padding:36px;">
+        <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:16px;margin-bottom:8px;">Label / Agency</div>
+        <div style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:38px;margin-bottom:4px;">Custom</div>
+        <div style="font-size:13.5px;color:oklch(58% 0.012 250);margin-bottom:28px;">Multiple brands, one account</div>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:14px;color:oklch(75% 0.012 250);margin-bottom:32px;">
+          <div>Everything in Pro</div>
+          <div>Multiple sub-accounts</div>
+          <div>Dedicated support</div>
+        </div>
+        <a href="#" style="display:block;text-align:center;border:1px solid oklch(40% 0.012 250);color:oklch(92% 0.006 250);padding:13px;border-radius:100px;font-size:14px;font-weight:700;" style-hover="border-color:oklch(78% 0.19 135);color:oklch(78% 0.19 135);">Talk to us</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL CTA -->
+  <div style="max-width:1280px;margin:0 auto;padding:0 32px 96px;">
+    <div style="background:oklch(78% 0.19 135);border-radius:24px;padding:80px 48px;text-align:center;">
+      <h2 style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:44px;line-height:1.05;color:oklch(14% 0.012 250);margin:0 0 24px;">Your next event deserves a better invite.</h2>
+      <a href="#" style="display:inline-block;background:oklch(14% 0.012 250);color:oklch(95% 0.006 250);padding:17px 32px;border-radius:100px;font-size:15px;font-weight:700;" style-hover="background:oklch(24% 0.012 250);">Create your invite</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="max-width:1280px;margin:0 auto;padding:40px 32px;border-top:1px solid oklch(24% 0.012 250);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+    <div style="font-family:'Unbounded',sans-serif;font-weight:800;font-size:16px;">SENDIT</div>
+    <div style="display:flex;gap:28px;font-size:13.5px;color:oklch(55% 0.012 250);">
+      <a href="#" style="color:oklch(55% 0.012 250);">Features</a>
+      <a href="#pricing" style="color:oklch(55% 0.012 250);">Pricing</a>
+      <a href="#" style="color:oklch(55% 0.012 250);">Contact</a>
+    </div>
+    <div style="font-size:12.5px;color:oklch(42% 0.012 250);">© 2026 SENDIT. All rights reserved.</div>
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      logoPlaceholders: ["LABEL 01", "AGENCY 02", "MGMT CO", "PUBLISHER", "RECORDS", "STUDIO 09"]
+    };
+  }
+}
+</script>
+</body>
+</html>
