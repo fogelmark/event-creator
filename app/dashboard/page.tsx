@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase"
 import Link from "next/link"
+import CopyLinkButton from "@/components/CopyLinkButton"
 
 interface Event {
   id: string
@@ -63,11 +64,6 @@ export default async function DashboardPage() {
       "Dec",
     ]
     return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`
-  }
-
-  const copyToClipboard = (slug: string) => {
-    const url = `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/i/${slug}`
-    return url
   }
 
   return (
@@ -148,15 +144,7 @@ export default async function DashboardPage() {
                   >
                     View RSVPs
                   </Link>
-                  <button
-                    onClick={() => {
-                      const url = copyToClipboard(event.slug)
-                      navigator.clipboard.writeText(url)
-                    }}
-                    className="rounded-lg bg-[oklch(78%_0.19_135)] px-4 py-2 text-center text-[13px] font-bold text-[oklch(14%_0.012_250)] hover:bg-[oklch(85%_0.19_135)]"
-                  >
-                    Copy Link
-                  </button>
+                  <CopyLinkButton slug={event.slug} />
                 </div>
               </div>
             ))}
