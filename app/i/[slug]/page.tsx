@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase"
 import { notFound } from "next/navigation"
+import RsvpForm from "@/components/RsvpForm"
 
 interface Event {
   id: string
@@ -104,10 +105,12 @@ export default async function InvitePage({
                 {event.description}
               </p>
             )}
-            <button className="w-full rounded-full bg-[oklch(95%_0.006_250)] py-3 text-center text-[13px] font-bold text-[oklch(14%_0.012_250)] hover:bg-[oklch(78%_0.19_135)]">
-              RSVP
-            </button>
           </div>
+        </div>
+
+        {/* RSVP Form */}
+        <div className="mt-6">
+          <RsvpForm eventId={event.id} />
         </div>
 
         {/* Branding */}
