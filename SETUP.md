@@ -5,9 +5,14 @@
 ### 1. Set up Supabase
 
 1. Go to [supabase.com](https://supabase.com) and create a new project
-2. Once your project is created, go to **Settings** → **API**
-3. Copy your **Project URL** and **anon/public key**
-4. Go to the **SQL Editor** and run the SQL from `supabase-schema.sql` to create the events table
+2. Once your project is created, go to the **SQL Editor** and run the SQL from `supabase-schema.sql` to create the events table
+   - This will create the `events` table
+   - **Enable Row Level Security (RLS)** on the table
+   - Set up policies for public read/insert access (already included in the SQL)
+3. Go to **Settings** → **API**
+4. Copy your **Project URL** and **anon public (publishable) key**
+   - ✅ The publishable key is safe to use in the browser because RLS is enabled
+   - ⚠️ Make sure you've run the SQL schema first to enable RLS!
 
 ### 2. Set up Vercel Blob (for image uploads)
 
