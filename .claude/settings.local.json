@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(npm run lint)",
-      "Bash(npm run build)"
+      "Bash(npm run build)",
+      "Bash(if [ -f .env.local ])",
+      "Bash(then echo \"✅ .env.local exists\")",
+      "Bash(else echo \"❌ .env.local does not exist\")",
+      "Bash(fi)"
     ],
     "deny": [],
     "ask": []

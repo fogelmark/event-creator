@@ -49,13 +49,13 @@ export default function CreateEvent() {
       // Upload image to Vercel Blob if exists
       let imageUrl = ""
       if (formData.image) {
-        const formDataBlob = new FormData()
-        formDataBlob.append("file", formData.image)
-
-        const uploadRes = await fetch("/api/upload", {
-          method: "POST",
-          body: formDataBlob,
-        })
+        const uploadRes = await fetch(
+          `/api/upload?filename=${encodeURIComponent(formData.image.name)}`,
+          {
+            method: "POST",
+            body: formData.image,
+          },
+        )
 
         if (!uploadRes.ok) throw new Error("Failed to upload image")
         const { url } = await uploadRes.json()

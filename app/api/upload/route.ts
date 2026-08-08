@@ -3,14 +3,20 @@ import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
   try {
-    const formData = await request.formData()
-    const file = formData.get("file") as File
+    // Get filename from query params (following Vercel Blob docs pattern)
+    const { searchParams } = new URL(request.url)
+    const filename = searchParams.get("filename")
 
-    if (!file) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 })
+    if (!filename) {
+      return NextResponse.json(
+        { error: "Filename is required" },
+        { status: 400 },
+      )
     }
 
-    const blob = await put(file.name, file, {
+    // Upload file directly from request body
+    // Using 'public' access so event invite images are viewable by anyone
+    const blob = await put(filename, request.body!, {
       access: "public",
     })
 
