@@ -98,7 +98,7 @@ export default function CreateEvent() {
     <div className="min-h-screen bg-[oklch(14%_0.012_250)] font-(family-name:--font-manrope)">
       {/* Header */}
       <div className="border-b border-[oklch(24%_0.012_250)]">
-        <div className="mx-auto flex max-w-[1280px] items-center justify-between px-8 py-7">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-7">
           <a
             href="/"
             className="font-(family-name:--font-unbounded) text-xl font-extrabold tracking-[0.02em] text-[oklch(95%_0.006_250)]"
@@ -109,7 +109,7 @@ export default function CreateEvent() {
       </div>
 
       {/* Main Content */}
-      <div className="mx-auto grid max-w-[1280px] grid-cols-[1fr_0.9fr] gap-16 px-8 py-16">
+      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_0.9fr] gap-16 px-8 py-16">
         {/* Form */}
         <div>
           <h1 className="mb-2 font-(family-name:--font-unbounded) text-[42px] leading-[1.05] font-extrabold text-[oklch(95%_0.006_250)]">
@@ -137,7 +137,7 @@ export default function CreateEvent() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="e.g. NOCTURNE LISTENING SESSION"
-                className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(20%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] placeholder-[oklch(50%_0.012_250)] focus:border-[oklch(78%_0.19_135)] focus:outline-none"
+                className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(20%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] focus:outline-none"
               />
             </div>
 
@@ -157,7 +157,7 @@ export default function CreateEvent() {
                   required
                   value={formData.date}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(20%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] focus:border-[oklch(78%_0.19_135)] focus:outline-none"
+                  className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(20%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] focus:outline-none"
                 />
               </div>
               <div>
@@ -174,7 +174,7 @@ export default function CreateEvent() {
                   required
                   value={formData.time}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(20%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] focus:border-[oklch(78%_0.19_135)] focus:outline-none"
+                  className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(20%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] focus:outline-none"
                 />
               </div>
             </div>
@@ -195,7 +195,7 @@ export default function CreateEvent() {
                 value={formData.location}
                 onChange={handleChange}
                 placeholder="e.g. The Vault, Los Angeles"
-                className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(20%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] placeholder-[oklch(50%_0.012_250)] focus:border-[oklch(78%_0.19_135)] focus:outline-none"
+                className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(20%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] focus:outline-none"
               />
             </div>
 
@@ -214,7 +214,7 @@ export default function CreateEvent() {
                 onChange={handleChange}
                 placeholder="Additional details about your event..."
                 rows={3}
-                className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(20%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] placeholder-[oklch(50%_0.012_250)] focus:border-[oklch(78%_0.19_135)] focus:outline-none"
+                className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(20%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] focus:outline-none"
               />
             </div>
 
@@ -233,7 +233,7 @@ export default function CreateEvent() {
                 value={formData.tierLabel}
                 onChange={handleChange}
                 placeholder="e.g. VIP + Press only"
-                className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(20%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] placeholder-[oklch(50%_0.012_250)] focus:border-[oklch(78%_0.19_135)] focus:outline-none"
+                className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(20%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] focus:outline-none"
               />
             </div>
 
@@ -250,7 +250,7 @@ export default function CreateEvent() {
                 id="image"
                 accept="image/*"
                 onChange={handleImageChange}
-                className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(20%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] file:mr-4 file:rounded-full file:border-0 file:bg-[oklch(78%_0.19_135)] file:px-4 file:py-2 file:text-sm file:font-bold file:text-[oklch(14%_0.012_250)] hover:file:bg-[oklch(88%_0.19_135)]"
+                className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(20%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] file:mr-4 file:text-sm file:font-bold hover:file:bg-[oklch(88%_0.19_135)]"
               />
             </div>
 

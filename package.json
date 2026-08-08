@@ -18,7 +18,6 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
-    "@tailwindcss/upgrade": "^4.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -29,6 +28,7 @@
     "lint-staged": "^13.3.0",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
+    "tailwind-lint": "^0.12.1",
     "tailwindcss": "^4.3.3",
     "typescript": "^5"
   }

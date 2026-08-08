@@ -92,7 +92,7 @@ export default async function InvitePage({
             <h1 className="mb-2.5 font-(family-name:--font-unbounded) text-[30px] leading-[1.05] font-extrabold text-[oklch(95%_0.006_250)]">
               {event.name}
             </h1>
-            <div className="mb-[18px] text-[13.5px] leading-normal text-[oklch(78%_0.012_250)]">
+            <div className="mb-4.5 text-[13.5px] leading-normal text-[oklch(78%_0.012_250)]">
               {formatDate(event.date)}
               <br />
               {event.location}
@@ -100,7 +100,7 @@ export default async function InvitePage({
               {event.tier_label}
             </div>
             {event.description && (
-              <p className="mb-[18px] text-[13px] leading-normal text-[oklch(72%_0.012_250)]">
+              <p className="mb-4.5 text-[13px] leading-normal text-[oklch(72%_0.012_250)]">
                 {event.description}
               </p>
             )}

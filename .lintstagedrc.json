@@ -1,6 +1,6 @@
 {
   "*.{js,jsx,ts,tsx,html,vue,svelte}": [
-    "bash -c 'npx @tailwindcss/upgrade --force'",
+    "bash -c 'npx tailwind-lint --fix'",
     "prettier --write"
   ],
   "*.{css,json,md}": ["prettier --write"]
