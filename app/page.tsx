@@ -6,7 +6,7 @@ export default function Home() {
     "PUBLISHER",
     "RECORDS",
     "STUDIO 09",
-  ];
+  ]
 
   return (
     <div className="w-full overflow-x-hidden font-(family-name:--font-manrope)">
@@ -38,13 +38,13 @@ export default function Home() {
       </div>
 
       {/* HERO */}
-      <div className="mx-auto grid max-w-7xl grid-cols-[1.1fr_0.9fr] items-center gap-16 px-8 pb-10 pt-16">
+      <div className="mx-auto grid max-w-7xl grid-cols-[1.1fr_0.9fr] items-center gap-16 px-8 pt-16 pb-10">
         <div>
-          <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-[oklch(32%_0.012_250)] px-3.5 py-1.75 text-[12.5px] font-semibold uppercase tracking-[0.03em] text-[oklch(78%_0.19_135)]">
+          <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-[oklch(32%_0.012_250)] px-3.5 py-1.75 text-[12.5px] font-semibold tracking-[0.03em] text-[oklch(78%_0.19_135)] uppercase">
             <span className="h-1.5 w-1.5 animate-[pulse_2s_ease-in-out_infinite] rounded-full bg-[oklch(78%_0.19_135)]"></span>
             Built for the music industry
           </div>
-          <h1 className="m-0 mb-6 font-(family-name:--font-unbounded) text-[50px] font-extrabold leading-[1.08] tracking-[-0.01em]">
+          <h1 className="m-0 mb-6 font-(family-name:--font-unbounded) text-[50px] leading-[1.08] font-extrabold tracking-[-0.01em]">
             Branded invites, out the door in minutes.
           </h1>
           <p className="m-0 mb-9 max-w-115 text-[19px] leading-[1.55] text-[oklch(72%_0.012_250)]">
@@ -54,7 +54,7 @@ export default function Home() {
           </p>
           <div className="flex items-center gap-4">
             <a
-              href="#"
+              href="/create"
               className="rounded-full bg-[oklch(78%_0.19_135)] px-7 py-4 text-[15px] font-bold text-[oklch(14%_0.012_250)] hover:bg-[oklch(88%_0.19_135)]"
             >
               Create your invite
@@ -81,10 +81,10 @@ export default function Home() {
             <div className="stripes relative flex aspect-9/13 flex-col justify-end overflow-hidden rounded-xl p-7">
               <div className="absolute inset-0 bg-linear-to-t from-[oklch(14%_0.012_250/0.92)] to-[oklch(14%_0.012_250/0.1)] to-55%"></div>
               <div className="relative z-10">
-                <div className="mb-2.5 font-mono text-[11px] uppercase tracking-wider text-[oklch(78%_0.19_135)]">
+                <div className="mb-2.5 font-mono text-[11px] tracking-wider text-[oklch(78%_0.19_135)] uppercase">
                   invite preview — image drop zone
                 </div>
-                <div className="mb-2.5 font-(family-name:--font-unbounded) text-[30px] font-extrabold leading-[1.05]">
+                <div className="mb-2.5 font-(family-name:--font-unbounded) text-[30px] leading-[1.05] font-extrabold">
                   NOCTURNE
                   <br />
                   LISTENING SESSION
@@ -102,7 +102,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="absolute -right-4 -top-4 rotate-[4deg] rounded-lg bg-[oklch(78%_0.19_135)] px-3 py-2 font-mono text-[11.5px] font-bold text-[oklch(14%_0.012_250)]">
+          <div className="absolute -top-4 -right-4 rotate-[4deg] rounded-lg bg-[oklch(78%_0.19_135)] px-3 py-2 font-mono text-[11.5px] font-bold text-[oklch(14%_0.012_250)]">
             142 RSVPs · 38 VIP
           </div>
         </div>
@@ -110,7 +110,7 @@ export default function Home() {
 
       {/* SOCIAL PROOF */}
       <div className="mx-auto max-w-7xl border-t border-[oklch(24%_0.012_250)] px-8 py-14">
-        <div className="mb-8 text-center text-[12.5px] font-semibold uppercase tracking-[0.08em] text-[oklch(50%_0.012_250)]">
+        <div className="mb-8 text-center text-[12.5px] font-semibold tracking-[0.08em] text-[oklch(50%_0.012_250)] uppercase">
           Trusted by teams across the industry
         </div>
         <div className="flex flex-wrap justify-center gap-4">
@@ -131,10 +131,10 @@ export default function Home() {
         className="mx-auto max-w-7xl border-t border-[oklch(24%_0.012_250)] px-8 py-24"
       >
         <div className="mb-16 max-w-140">
-          <div className="mb-3.5 text-[12.5px] font-bold uppercase tracking-[0.08em] text-[oklch(78%_0.19_135)]">
+          <div className="mb-3.5 text-[12.5px] font-bold tracking-[0.08em] text-[oklch(78%_0.19_135)] uppercase">
             How it works
           </div>
-          <h2 className="m-0 font-(family-name:--font-unbounded) text-[42px] font-extrabold leading-[1.05]">
+          <h2 className="m-0 font-(family-name:--font-unbounded) text-[42px] leading-[1.05] font-extrabold">
             From blank page to live invite before soundcheck.
           </h2>
         </div>
@@ -182,10 +182,10 @@ export default function Home() {
       {/* FEATURES */}
       <div className="mx-auto max-w-7xl border-t border-[oklch(24%_0.012_250)] px-8 py-24">
         <div className="mb-16 max-w-140">
-          <div className="mb-3.5 text-[12.5px] font-bold uppercase tracking-[0.08em] text-[oklch(78%_0.19_135)]">
+          <div className="mb-3.5 text-[12.5px] font-bold tracking-[0.08em] text-[oklch(78%_0.19_135)] uppercase">
             Built for how the industry actually runs events
           </div>
-          <h2 className="m-0 font-(family-name:--font-unbounded) text-[42px] font-extrabold leading-[1.05]">
+          <h2 className="m-0 font-(family-name:--font-unbounded) text-[42px] leading-[1.05] font-extrabold">
             Everything you need. Nothing you don't.
           </h2>
         </div>
@@ -230,9 +230,9 @@ export default function Home() {
       </div>
 
       {/* COMPARISON */}
-      <div className="border-b border-t border-[oklch(24%_0.012_250)] bg-[oklch(20%_0.012_250)] px-8 py-24">
+      <div className="border-t border-b border-[oklch(24%_0.012_250)] bg-[oklch(20%_0.012_250)] px-8 py-24">
         <div className="mx-auto max-w-180 text-center">
-          <h2 className="m-0 mb-5 font-(family-name:--font-unbounded) text-4xl font-extrabold leading-[1.2]">
+          <h2 className="m-0 mb-5 font-(family-name:--font-unbounded) text-4xl leading-[1.2] font-extrabold">
             You're not running a music festival. You don't need a platform built
             for one.
           </h2>
@@ -245,15 +245,12 @@ export default function Home() {
       </div>
 
       {/* PRICING */}
-      <div
-        id="pricing"
-        className="mx-auto max-w-7xl px-8 py-24"
-      >
+      <div id="pricing" className="mx-auto max-w-7xl px-8 py-24">
         <div className="mx-auto mb-16 max-w-140 text-center">
-          <div className="mb-3.5 text-[12.5px] font-bold uppercase tracking-[0.08em] text-[oklch(78%_0.19_135)]">
+          <div className="mb-3.5 text-[12.5px] font-bold tracking-[0.08em] text-[oklch(78%_0.19_135)] uppercase">
             Pricing
           </div>
-          <h2 className="m-0 mb-4 font-(family-name:--font-unbounded) text-[42px] font-extrabold leading-[1.05]">
+          <h2 className="m-0 mb-4 font-(family-name:--font-unbounded) text-[42px] leading-[1.05] font-extrabold">
             Flat monthly plans. No per-ticket fees.
           </h2>
           <p className="m-0 text-base text-[oklch(65%_0.012_250)]">
@@ -287,7 +284,7 @@ export default function Home() {
             </a>
           </div>
           <div className="relative rounded-2xl border border-[oklch(78%_0.19_135)] bg-[oklch(20%_0.012_250)] p-9">
-            <div className="absolute -top-3.25 left-9 rounded-full bg-[oklch(78%_0.19_135)] px-3 py-1.25 text-[11.5px] font-bold uppercase tracking-[0.03em] text-[oklch(14%_0.012_250)]">
+            <div className="absolute -top-3.25 left-9 rounded-full bg-[oklch(78%_0.19_135)] px-3 py-1.25 text-[11.5px] font-bold tracking-[0.03em] text-[oklch(14%_0.012_250)] uppercase">
               Most popular
             </div>
             <div className="mb-2 font-(family-name:--font-unbounded) text-base font-bold">
@@ -343,11 +340,11 @@ export default function Home() {
       {/* FINAL CTA */}
       <div className="mx-auto max-w-7xl px-8 pb-24">
         <div className="rounded-3xl bg-[oklch(78%_0.19_135)] px-12 py-20 text-center">
-          <h2 className="m-0 mb-6 font-(family-name:--font-unbounded) text-[44px] font-extrabold leading-[1.05] text-[oklch(14%_0.012_250)]">
+          <h2 className="m-0 mb-6 font-(family-name:--font-unbounded) text-[44px] leading-[1.05] font-extrabold text-[oklch(14%_0.012_250)]">
             Your next event deserves a better invite.
           </h2>
           <a
-            href="#"
+            href="/create"
             className="inline-block rounded-full bg-[oklch(14%_0.012_250)] px-8 py-4.25 text-[15px] font-bold text-[oklch(95%_0.006_250)] hover:bg-[oklch(24%_0.012_250)]"
           >
             Create your invite
@@ -376,5 +373,5 @@ export default function Home() {
         </div>
       </div>
     </div>
-  );
+  )
 }
