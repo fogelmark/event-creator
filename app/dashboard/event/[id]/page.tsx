@@ -109,46 +109,52 @@ export default async function EventDetailPage({
   }
 
   return (
-    <div className="min-h-screen bg-[oklch(14%_0.012_250)] p-6 font-(family-name:--font-manrope)">
+    <div className="min-h-screen bg-[oklch(14%_0.012_250)] p-4 font-(family-name:--font-manrope) sm:p-6">
       <div className="mx-auto max-w-4xl">
         {/* Back Link */}
         <Link
           href="/dashboard"
-          className="mb-6 inline-block text-[13px] text-[oklch(78%_0.19_135)] hover:underline"
+          className="mb-4 inline-block text-[12px] text-[oklch(78%_0.19_135)] hover:underline sm:mb-6 sm:text-[13px]"
         >
           ← Back to Dashboard
         </Link>
 
         {/* Event Header */}
-        <div className="mb-8">
-          <h1 className="font-(family-name:--font-unbounded) text-3xl font-extrabold text-[oklch(95%_0.006_250)]">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="font-(family-name:--font-unbounded) text-2xl font-extrabold text-[oklch(95%_0.006_250)] sm:text-3xl">
             {event.name}
           </h1>
-          <p className="mt-2 text-[13px] text-[oklch(78%_0.012_250)]">
+          <p className="mt-2 text-[12px] text-[oklch(78%_0.012_250)] sm:text-[13px]">
             {formatDate(event.date)} · {event.location}
           </p>
-          <p className="mt-1 text-[13px] text-[oklch(50%_0.012_250)]">
+          <p className="mt-1 text-[12px] text-[oklch(50%_0.012_250)] sm:text-[13px]">
             /i/{event.slug}
           </p>
         </div>
 
         {/* Stats */}
-        <div className="mb-8 grid grid-cols-3 gap-4">
-          <div className="rounded-lg bg-[oklch(20%_0.012_250)] p-4">
-            <p className="text-[13px] text-[oklch(78%_0.012_250)]">Going</p>
-            <p className="font-(family-name:--font-unbounded) text-2xl font-bold text-[oklch(78%_0.19_135)]">
+        <div className="mb-6 grid grid-cols-3 gap-3 sm:mb-8 sm:gap-4">
+          <div className="rounded-lg bg-[oklch(20%_0.012_250)] p-3 sm:p-4">
+            <p className="text-[11px] text-[oklch(78%_0.012_250)] sm:text-[13px]">
+              Going
+            </p>
+            <p className="font-(family-name:--font-unbounded) text-xl font-bold text-[oklch(78%_0.19_135)] sm:text-2xl">
               {statusCounts.going}
             </p>
           </div>
-          <div className="rounded-lg bg-[oklch(20%_0.012_250)] p-4">
-            <p className="text-[13px] text-[oklch(78%_0.012_250)]">Maybe</p>
-            <p className="font-(family-name:--font-unbounded) text-2xl font-bold text-[oklch(65%_0.15_80)]">
+          <div className="rounded-lg bg-[oklch(20%_0.012_250)] p-3 sm:p-4">
+            <p className="text-[11px] text-[oklch(78%_0.012_250)] sm:text-[13px]">
+              Maybe
+            </p>
+            <p className="font-(family-name:--font-unbounded) text-xl font-bold text-[oklch(65%_0.15_80)] sm:text-2xl">
               {statusCounts.maybe}
             </p>
           </div>
-          <div className="rounded-lg bg-[oklch(20%_0.012_250)] p-4">
-            <p className="text-[13px] text-[oklch(78%_0.012_250)]">Can't go</p>
-            <p className="font-(family-name:--font-unbounded) text-2xl font-bold text-[oklch(50%_0.012_250)]">
+          <div className="rounded-lg bg-[oklch(20%_0.012_250)] p-3 sm:p-4">
+            <p className="text-[11px] text-[oklch(78%_0.012_250)] sm:text-[13px]">
+              Can't go
+            </p>
+            <p className="font-(family-name:--font-unbounded) text-xl font-bold text-[oklch(50%_0.012_250)] sm:text-2xl">
               {statusCounts.not_going}
             </p>
           </div>
@@ -156,31 +162,33 @@ export default async function EventDetailPage({
 
         {/* RSVPs List */}
         <div>
-          <h2 className="mb-4 font-(family-name:--font-unbounded) text-xl font-bold text-[oklch(95%_0.006_250)]">
+          <h2 className="mb-3 font-(family-name:--font-unbounded) text-lg font-bold text-[oklch(95%_0.006_250)] sm:mb-4 sm:text-xl">
             All RSVPs ({rsvps.length})
           </h2>
 
           {rsvps.length === 0 ? (
-            <div className="rounded-lg bg-[oklch(20%_0.012_250)] p-8 text-center">
-              <p className="text-[oklch(78%_0.012_250)]">No RSVPs yet</p>
+            <div className="rounded-lg bg-[oklch(20%_0.012_250)] p-6 text-center sm:p-8">
+              <p className="text-[13px] text-[oklch(78%_0.012_250)] sm:text-[14px]">
+                No RSVPs yet
+              </p>
             </div>
           ) : (
             <div className="space-y-2">
               {rsvps.map((rsvp) => (
                 <div
                   key={rsvp.id}
-                  className="flex items-center justify-between rounded-lg bg-[oklch(20%_0.012_250)] p-4"
+                  className="flex flex-col gap-3 rounded-lg bg-[oklch(20%_0.012_250)] p-3 sm:flex-row sm:items-center sm:justify-between sm:p-4"
                 >
                   <div>
-                    <p className="font-bold text-[oklch(95%_0.006_250)]">
+                    <p className="text-sm font-bold text-[oklch(95%_0.006_250)] sm:text-base">
                       {rsvp.name}
                     </p>
-                    <p className="text-[13px] text-[oklch(78%_0.012_250)]">
+                    <p className="text-[12px] text-[oklch(78%_0.012_250)] sm:text-[13px]">
                       {rsvp.email}
                     </p>
                   </div>
                   <div
-                    className={`rounded-full px-4 py-1.5 text-[13px] font-bold ${getStatusColor(rsvp.status)}`}
+                    className={`w-fit rounded-full px-3 py-1.5 text-[11px] font-bold sm:px-4 sm:text-[13px] ${getStatusColor(rsvp.status)}`}
                   >
                     {getStatusLabel(rsvp.status)}
                   </div>

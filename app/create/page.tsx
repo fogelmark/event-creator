@@ -97,16 +97,16 @@ export default function CreateEvent() {
     <div className="min-h-screen bg-[oklch(14%_0.012_250)] font-(family-name:--font-manrope)">
       {/* Header */}
       <div className="border-b border-[oklch(24%_0.012_250)]">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-7">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-8 sm:py-7">
           <a
             href="/"
-            className="font-(family-name:--font-unbounded) text-xl font-extrabold tracking-[0.02em] text-[oklch(95%_0.006_250)]"
+            className="font-(family-name:--font-unbounded) text-lg font-extrabold tracking-[0.02em] text-[oklch(95%_0.006_250)] sm:text-xl"
           >
             SENDIT
           </a>
           <a
             href="/dashboard"
-            className="text-[13px] font-bold text-[oklch(78%_0.012_250)] hover:text-[oklch(95%_0.006_250)]"
+            className="text-[12px] font-bold text-[oklch(78%_0.012_250)] hover:text-[oklch(95%_0.006_250)] sm:text-[13px]"
           >
             Dashboard
           </a>
@@ -114,13 +114,13 @@ export default function CreateEvent() {
       </div>
 
       {/* Main Content */}
-      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_0.9fr] gap-16 px-8 py-16">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 py-8 sm:px-8 sm:py-16 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
         {/* Form */}
         <div>
-          <h1 className="mb-2 font-(family-name:--font-unbounded) text-[42px] leading-[1.05] font-extrabold text-[oklch(95%_0.006_250)]">
+          <h1 className="mb-2 font-(family-name:--font-unbounded) text-[28px] leading-[1.05] font-extrabold text-[oklch(95%_0.006_250)] sm:text-[42px]">
             Create your invite
           </h1>
-          <p className="mb-12 text-[17px] leading-[1.6] text-[oklch(68%_0.012_250)]">
+          <p className="mb-8 text-[15px] leading-[1.6] text-[oklch(68%_0.012_250)] sm:mb-12 sm:text-[17px]">
             Fill in your event details and watch the preview update in
             real-time.
           </p>
@@ -263,7 +263,7 @@ export default function CreateEvent() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="mt-4 rounded-full bg-[oklch(78%_0.19_135)] px-8 py-4 text-[15px] font-bold text-[oklch(14%_0.012_250)] hover:bg-[oklch(88%_0.19_135)] disabled:opacity-50"
+              className="mt-4 w-full rounded-full bg-[oklch(78%_0.19_135)] px-7 py-3.5 text-[14px] font-bold text-[oklch(14%_0.012_250)] hover:bg-[oklch(88%_0.19_135)] disabled:opacity-50 sm:w-auto sm:px-8 sm:py-4 sm:text-[15px]"
             >
               {isSubmitting ? "Creating..." : "Create Invite"}
             </button>
@@ -271,7 +271,7 @@ export default function CreateEvent() {
         </div>
 
         {/* Live Preview */}
-        <div className="sticky top-8 h-fit">
+        <div className="sticky top-8 order-first h-fit lg:order-last">
           <InvitePreview
             name={formData.name}
             date={formData.date}
