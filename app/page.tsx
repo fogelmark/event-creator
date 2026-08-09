@@ -78,7 +78,7 @@ export default function Home() {
                 sendit.co/i/nocturne-listening
               </span>
             </div>
-            <div className="stripes relative flex aspect-9/13 flex-col justify-end overflow-hidden rounded-xl p-7">
+            <div className="stripes relative flex aspect-9/13 flex-col justify-end overflow-hidden rounded-xl p-7 lg:aspect-square">
               <div className="absolute inset-0 bg-linear-to-t from-[oklch(14%_0.012_250/0.92)] to-[oklch(14%_0.012_250/0.1)] to-55%"></div>
               <div className="relative z-10">
                 <div className="mb-2.5 font-mono text-[11px] tracking-wider text-[oklch(78%_0.19_135)] uppercase">
@@ -341,14 +341,14 @@ export default function Home() {
       </div>
 
       {/* FINAL CTA */}
-      <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-8 sm:pb-24">
-        <div className="rounded-2xl bg-[oklch(78%_0.19_135)] px-6 py-12 text-center sm:rounded-3xl sm:px-12 sm:py-20">
-          <h2 className="m-0 mb-5 font-(family-name:--font-unbounded) text-[28px] leading-[1.05] font-extrabold text-[oklch(14%_0.012_250)] sm:mb-6 sm:text-[44px]">
+      <div className="mx-auto max-w-7xl px-8 pb-24">
+        <div className="rounded-3xl bg-[oklch(78%_0.19_135)] px-12 py-20 text-center">
+          <h2 className="m-0 mb-6 font-(family-name:--font-unbounded) text-[44px] leading-[1.05] font-extrabold text-[oklch(14%_0.012_250)]">
             Your next event deserves a better invite.
           </h2>
           <a
             href="/create"
-            className="inline-block w-full rounded-full bg-[oklch(14%_0.012_250)] px-7 py-3.5 text-[14px] font-bold text-[oklch(95%_0.006_250)] hover:bg-[oklch(24%_0.012_250)] sm:w-auto sm:px-8 sm:py-4.25 sm:text-[15px]"
+            className="inline-block rounded-full bg-[oklch(14%_0.012_250)] px-8 py-4.25 text-[15px] font-bold text-[oklch(95%_0.006_250)] hover:bg-[oklch(24%_0.012_250)]"
           >
             Create your invite
           </a>
@@ -356,7 +356,7 @@ export default function Home() {
       </div>
 
       {/* FOOTER */}
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 border-t border-[oklch(24%_0.012_250)] px-4 py-8 sm:px-8 sm:py-10">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 border-t border-[oklch(24%_0.012_250)] px-8 py-10">
         <div className="font-(family-name:--font-unbounded) font-extrabold">
           SENDIT
         </div>
