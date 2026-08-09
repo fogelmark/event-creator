@@ -271,7 +271,7 @@ export default function CreateEvent() {
         </div>
 
         {/* Live Preview */}
-        <div className="sticky top-8 order-first h-fit lg:order-last">
+        <div className="top-8 order-first h-fit lg:sticky lg:order-last">
           <InvitePreview
             name={formData.name}
             date={formData.date}
