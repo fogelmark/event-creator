@@ -23,16 +23,16 @@ export default function Home() {
             Pricing
           </a>
           <a
-            href="#"
+            href="/dashboard"
             className="text-sm font-semibold text-[oklch(75%_0.01_250)]"
           >
-            Log in
+            Dashboard
           </a>
           <a
-            href="#"
+            href="/create"
             className="rounded-full bg-[oklch(95%_0.006_250)] px-5 py-2.75 text-sm font-bold text-[oklch(14%_0.012_250)] hover:bg-[oklch(78%_0.19_135)] hover:text-[oklch(14%_0.012_250)]"
           >
-            Start free trial
+            Create Event
           </a>
         </div>
       </div>

@@ -79,8 +79,7 @@ export default function CreateEvent() {
 
       if (!res.ok) throw new Error("Failed to create event")
 
-      const { slug: createdSlug } = await res.json()
-      router.push(`/i/${createdSlug}`)
+      router.push(`/dashboard`)
     } catch (error) {
       console.error(error)
       alert("Failed to create event. Please try again.")
@@ -104,6 +103,12 @@ export default function CreateEvent() {
             className="font-(family-name:--font-unbounded) text-xl font-extrabold tracking-[0.02em] text-[oklch(95%_0.006_250)]"
           >
             SENDIT
+          </a>
+          <a
+            href="/dashboard"
+            className="text-[13px] font-bold text-[oklch(78%_0.012_250)] hover:text-[oklch(95%_0.006_250)]"
+          >
+            Dashboard
           </a>
         </div>
       </div>
