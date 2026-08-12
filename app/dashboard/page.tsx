@@ -2,6 +2,9 @@ import { supabase } from "@/lib/supabase"
 import Link from "next/link"
 import CopyLinkButton from "@/components/CopyLinkButton"
 
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
 interface Event {
   id: string
   slug: string
