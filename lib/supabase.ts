@@ -2,8 +2,7 @@ import { createClient, SupabaseClient } from "@supabase/supabase-js"
 
 let supabaseInstance: SupabaseClient | null = null
 
-// Lazy initialization - only create client when accessed
-// This prevents build-time errors when env vars aren't available
+// Client-side Supabase instance (for use in client components)
 export function getSupabase() {
   if (supabaseInstance) {
     return supabaseInstance
@@ -19,7 +18,12 @@ export function getSupabase() {
   }
 
   // Note: ANON_KEY is the same as the "publishable" key - safe to use in browser with RLS enabled
-  supabaseInstance = createClient(supabaseUrl, supabasePublishableKey)
+  supabaseInstance = createClient(supabaseUrl, supabasePublishableKey, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+    },
+  })
   return supabaseInstance
 }
 
