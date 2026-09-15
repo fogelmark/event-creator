@@ -1,6 +1,9 @@
-import { supabase } from "@/lib/supabase"
+import { getSupabaseServer } from "@/lib/supabase-server"
+import { getSupabaseAdmin } from "@/lib/supabase-admin"
 import Link from "next/link"
 import CopyLinkButton from "@/components/CopyLinkButton"
+import UserMenu from "@/components/UserMenu"
+import { redirect } from "next/navigation"
 
 export const dynamic = "force-dynamic"
 export const revalidate = 0
@@ -15,33 +18,38 @@ interface Event {
   created_at: string
 }
 
-async function getEvents(): Promise<Event[]> {
-  const { data, error } = await supabase
+export default async function DashboardPage() {
+  const supabase = await getSupabaseServer()
+
+  // Get authenticated user
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    redirect("/login")
+  }
+
+  // Use admin client to fetch events (bypasses RLS issues)
+  const supabaseAdmin = getSupabaseAdmin()
+
+  // Get only the current user's events
+  const { data: events, error } = await supabaseAdmin
     .from("events")
     .select("*")
+    .eq("user_id", user.id)
     .order("created_at", { ascending: false })
 
-  if (error) return []
-  return data
-}
+  if (error) {
+    console.error("Error fetching events:", error)
+  }
 
-async function getRsvpCount(eventId: string): Promise<number> {
-  const { data, error } = await supabase
-    .from("rsvps")
-    .select("id", { count: "exact", head: true })
-    .eq("event_id", eventId)
-
-  if (error) return 0
-  return data?.length || 0
-}
-
-export default async function DashboardPage() {
-  const events = await getEvents()
+  const userEvents = events || []
 
   // Get RSVP counts for all events
   const eventsWithCounts = await Promise.all(
-    events.map(async (event) => {
-      const { count } = await supabase
+    userEvents.map(async (event) => {
+      const { count } = await supabaseAdmin
         .from("rsvps")
         .select("*", { count: "exact", head: true })
         .eq("event_id", event.id)
@@ -74,20 +82,29 @@ export default async function DashboardPage() {
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="font-(family-name:--font-unbounded) text-2xl font-extrabold text-[oklch(95%_0.006_250)] sm:text-3xl">
-              Dashboard
-            </h1>
-            <p className="mt-1 text-[12px] text-[oklch(78%_0.012_250)] sm:text-[13px]">
-              Manage your events and view RSVPs
-            </p>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/"
+              className="font-(family-name:--font-unbounded) text-lg font-extrabold tracking-[0.02em] text-[oklch(95%_0.006_250)] sm:text-xl"
+            >
+              SENDIT
+            </Link>
+            <div className="hidden h-4 w-px bg-[oklch(30%_0.012_250)] sm:block"></div>
+            <div className="hidden sm:block">
+              <h1 className="font-(family-name:--font-unbounded) text-xl font-extrabold text-[oklch(95%_0.006_250)]">
+                Dashboard
+              </h1>
+            </div>
           </div>
-          <Link
-            href="/create"
-            className="w-full rounded-full bg-[oklch(78%_0.19_135)] px-5 py-2.5 text-center text-[12px] font-bold text-[oklch(14%_0.012_250)] hover:bg-[oklch(85%_0.19_135)] sm:w-auto sm:px-6 sm:text-[13px]"
-          >
-            Create Event
-          </Link>
+          <div className="flex items-center gap-3">
+            <UserMenu />
+            <Link
+              href="/create"
+              className="rounded-full bg-[oklch(78%_0.19_135)] px-5 py-2.5 text-center text-[12px] font-bold text-[oklch(14%_0.012_250)] hover:bg-[oklch(85%_0.19_135)] sm:px-6 sm:text-[13px]"
+            >
+              Create Event
+            </Link>
+          </div>
         </div>
 
         {/* Events List */}

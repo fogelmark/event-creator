@@ -1,5 +1,6 @@
-import { supabase } from "@/lib/supabase"
-import { notFound } from "next/navigation"
+import { getSupabaseServer } from "@/lib/supabase-server"
+import { getSupabaseAdmin } from "@/lib/supabase-admin"
+import { notFound, redirect } from "next/navigation"
 import Link from "next/link"
 
 export const dynamic = "force-dynamic"
@@ -7,6 +8,7 @@ export const revalidate = 0
 
 interface Event {
   id: string
+  user_id: string
   slug: string
   name: string
   date: string
@@ -24,41 +26,46 @@ interface Rsvp {
   created_at: string
 }
 
-async function getEvent(id: string): Promise<Event | null> {
-  const { data, error } = await supabase
-    .from("events")
-    .select("*")
-    .eq("id", id)
-    .single()
-
-  if (error) return null
-  return data
-}
-
-async function getRsvps(eventId: string): Promise<Rsvp[]> {
-  const { data, error } = await supabase
-    .from("rsvps")
-    .select("*")
-    .eq("event_id", eventId)
-    .order("created_at", { ascending: false })
-
-  if (error) return []
-  return data
-}
-
 export default async function EventDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const event = await getEvent(id)
+  const supabase = await getSupabaseServer()
 
-  if (!event) {
+  // Get authenticated user
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    redirect("/login")
+  }
+
+  // Use admin client to fetch data (bypasses RLS issues)
+  const supabaseAdmin = getSupabaseAdmin()
+
+  // Get event and verify ownership
+  const { data: event, error: eventError } = await supabaseAdmin
+    .from("events")
+    .select("*")
+    .eq("id", id)
+    .eq("user_id", user.id)
+    .single()
+
+  if (eventError || !event) {
     notFound()
   }
 
-  const rsvps = await getRsvps(id)
+  // Get RSVPs for this event
+  const { data: rsvps, error: rsvpsError } = await supabaseAdmin
+    .from("rsvps")
+    .select("*")
+    .eq("event_id", id)
+    .order("created_at", { ascending: false })
+
+  const eventRsvps = rsvps || []
 
   const formatDate = (dateStr: string) => {
     const d = new Date(dateStr)
@@ -80,9 +87,9 @@ export default async function EventDetailPage({
   }
 
   const statusCounts = {
-    going: rsvps.filter((r) => r.status === "going").length,
-    maybe: rsvps.filter((r) => r.status === "maybe").length,
-    not_going: rsvps.filter((r) => r.status === "not_going").length,
+    going: eventRsvps.filter((r) => r.status === "going").length,
+    maybe: eventRsvps.filter((r) => r.status === "maybe").length,
+    not_going: eventRsvps.filter((r) => r.status === "not_going").length,
   }
 
   const getStatusLabel = (status: string) => {
@@ -166,10 +173,10 @@ export default async function EventDetailPage({
         {/* RSVPs List */}
         <div>
           <h2 className="mb-3 font-(family-name:--font-unbounded) text-lg font-bold text-[oklch(95%_0.006_250)] sm:mb-4 sm:text-xl">
-            All RSVPs ({rsvps.length})
+            All RSVPs ({eventRsvps.length})
           </h2>
 
-          {rsvps.length === 0 ? (
+          {eventRsvps.length === 0 ? (
             <div className="rounded-lg bg-[oklch(20%_0.012_250)] p-6 text-center sm:p-8">
               <p className="text-[13px] text-[oklch(78%_0.012_250)] sm:text-[14px]">
                 No RSVPs yet
@@ -177,7 +184,7 @@ export default async function EventDetailPage({
             </div>
           ) : (
             <div className="space-y-2">
-              {rsvps.map((rsvp) => (
+              {eventRsvps.map((rsvp) => (
                 <div
                   key={rsvp.id}
                   className="flex flex-col gap-3 rounded-lg bg-[oklch(20%_0.012_250)] p-3 sm:flex-row sm:items-center sm:justify-between sm:p-4"
