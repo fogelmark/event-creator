@@ -113,7 +113,10 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Slug required" }, { status: 400 })
     }
 
-    const { data, error } = await supabase
+    // Use admin client for public event lookup (no auth required)
+    const supabaseAdmin = getSupabaseAdmin()
+
+    const { data, error } = await supabaseAdmin
       .from("events")
       .select("*")
       .eq("slug", slug)
