@@ -29,7 +29,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    return NextResponse.json({ slug: data.slug })
+    // id is returned so the create page can redirect to the event's dashboard,
+    // where invites are added and sent.
+    return NextResponse.json({ slug: data.slug, id: data.id })
   } catch (error) {
     console.error("API error:", error)
     return NextResponse.json(

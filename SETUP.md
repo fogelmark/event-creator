@@ -29,9 +29,29 @@ Create a `.env.local` file in the project root:
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 
+# Supabase service role — server-side only, NEVER prefix with NEXT_PUBLIC_
+# Settings → API → service_role. Needed to read/write the invites table.
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+
 # Vercel Blob
 BLOB_READ_WRITE_TOKEN=your-blob-token
+
+# Resend (invite emails)
+RESEND_API_KEY=your-resend-key
+# Until a domain is verified in Resend, leave RESEND_FROM unset: the sandbox
+# sender only delivers to the address your Resend account is registered with.
+# RESEND_FROM=SENDIT <invites@yourdomain.com>
+
+# Base URL used to build RSVP links in emails. Auto-detected on Vercel.
+# NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
+
+### 3b. Set up invites
+
+1. Run `supabase-invites-schema.sql` in the Supabase SQL Editor (after `supabase-schema.sql`)
+2. Create a free account at [resend.com](https://resend.com) and copy an API key
+3. To send to real recipients, go to Resend → **Domains** → **Add Domain**, add the
+   DNS records it shows you, then set `RESEND_FROM` to an address on that domain
 
 ### 4. Install Dependencies
 
@@ -56,14 +76,16 @@ Visit [http://localhost:3000](http://localhost:3000)
 ✅ Event storage in Supabase
 ✅ Public invite pages at `/i/[slug]`
 ✅ Responsive mobile-first design
+✅ Invite lists per event, added at creation or from the dashboard
+✅ Branded invite emails via Resend with one-click RSVP links
 
 ## 🎯 Next Steps
 
 - [ ] RSVP functionality
 - [ ] Event dashboard
 - [ ] RSVP management
-- [ ] Authentication (Supabase Auth)
-- [ ] Email notifications
+- [ ] Authentication (Supabase Auth) — **needed before invites are safe in public**
+- [ ] Lock down RLS on `rsvps` (currently world-readable, world-updatable)
 - [ ] Guest tiers (VIP, Press, General)
 
 ## 🗂️ Project Structure

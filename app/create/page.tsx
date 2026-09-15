@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { InvitePreview } from "@/components/InvitePreview"
 
 export default function CreateEvent() {
@@ -79,7 +80,10 @@ export default function CreateEvent() {
 
       if (!res.ok) throw new Error("Failed to create event")
 
-      router.push(`/dashboard`)
+      const { id } = await res.json()
+
+      // Land on the event page, where invites are added and sent.
+      router.push(`/dashboard/event/${id}`)
     } catch (error) {
       console.error(error)
       alert("Failed to create event. Please try again.")
@@ -98,18 +102,18 @@ export default function CreateEvent() {
       {/* Header */}
       <div className="border-b border-[oklch(24%_0.012_250)]">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-8 sm:py-7">
-          <a
+          <Link
             href="/"
             className="font-(family-name:--font-unbounded) text-lg font-extrabold tracking-[0.02em] text-[oklch(95%_0.006_250)] sm:text-xl"
           >
             SENDIT
-          </a>
-          <a
+          </Link>
+          <Link
             href="/dashboard"
             className="text-[12px] font-bold text-[oklch(78%_0.012_250)] hover:text-[oklch(95%_0.006_250)] sm:text-[13px]"
           >
             Dashboard
-          </a>
+          </Link>
         </div>
       </div>
 

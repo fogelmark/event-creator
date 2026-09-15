@@ -25,15 +25,15 @@ async function getEvents(): Promise<Event[]> {
   return data
 }
 
-async function getRsvpCount(eventId: string): Promise<number> {
-  const { data, error } = await supabase
-    .from("rsvps")
-    .select("id", { count: "exact", head: true })
-    .eq("event_id", eventId)
+// async function getRsvpCount(eventId: string): Promise<number> {
+//   const { data, error } = await supabase
+//     .from("rsvps")
+//     .select("id", { count: "exact", head: true })
+//     .eq("event_id", eventId)
 
-  if (error) return 0
-  return data?.length || 0
-}
+//   if (error) return 0
+//   return data?.length || 0
+// }
 
 export default async function DashboardPage() {
   const events = await getEvents()
