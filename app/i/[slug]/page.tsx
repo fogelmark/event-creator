@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase"
+import { getSupabaseAdmin } from "@/lib/supabase-admin"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import RsvpForm from "@/components/RsvpForm"
@@ -15,10 +15,14 @@ interface Event {
   created_at: string
 }
 
+// Guests are anonymous and RLS only lets owners read events, so look the event
+// up server-side by its slug, selecting only the fields a guest may see.
 async function getEvent(slug: string): Promise<Event | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseAdmin()
     .from("events")
-    .select("*")
+    .select(
+      "id, slug, name, date, location, description, image_url, tier_label, created_at",
+    )
     .eq("slug", slug)
     .single()
 

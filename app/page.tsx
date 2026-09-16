@@ -1,4 +1,7 @@
-export default function Home() {
+import { getSupabaseServer } from "@/lib/supabase-server"
+import UserMenu from "@/components/UserMenu"
+
+export default async function Home() {
   const logoPlaceholders = [
     "LABEL 01",
     "AGENCY 02",
@@ -7,6 +10,12 @@ export default function Home() {
     "RECORDS",
     "STUDIO 09",
   ]
+
+  // Check if user is authenticated
+  const supabase = await getSupabaseServer()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   return (
     <div className="w-full overflow-x-hidden font-(family-name:--font-manrope)">
@@ -22,18 +31,32 @@ export default function Home() {
           >
             Pricing
           </a>
-          <a
-            href="/dashboard"
-            className="hidden text-sm font-semibold text-[oklch(75%_0.01_250)] sm:block"
-          >
-            Dashboard
-          </a>
-          <a
-            href="/create"
-            className="rounded-full bg-[oklch(95%_0.006_250)] px-4 py-2 text-xs font-bold text-[oklch(14%_0.012_250)] hover:bg-[oklch(78%_0.19_135)] hover:text-[oklch(14%_0.012_250)] sm:px-5 sm:py-2.75 sm:text-sm"
-          >
-            Create Event
-          </a>
+          {user ? (
+            <>
+              <a
+                href="/dashboard"
+                className="hidden text-sm font-semibold text-[oklch(75%_0.01_250)] sm:block"
+              >
+                Dashboard
+              </a>
+              <UserMenu />
+            </>
+          ) : (
+            <>
+              <a
+                href="/login"
+                className="hidden text-sm font-semibold text-[oklch(75%_0.01_250)] sm:block"
+              >
+                Sign in
+              </a>
+              <a
+                href="/signup"
+                className="rounded-full bg-[oklch(95%_0.006_250)] px-4 py-2 text-xs font-bold text-[oklch(14%_0.012_250)] hover:bg-[oklch(78%_0.19_135)] hover:text-[oklch(14%_0.012_250)] sm:px-5 sm:py-2.75 sm:text-sm"
+              >
+                Get Started
+              </a>
+            </>
+          )}
         </div>
       </div>
 
@@ -54,10 +77,10 @@ export default function Home() {
           </p>
           <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
             <a
-              href="/create"
+              href="/signup"
               className="w-full rounded-full bg-[oklch(78%_0.19_135)] px-6 py-3.5 text-center text-[14px] font-bold text-[oklch(14%_0.012_250)] hover:bg-[oklch(88%_0.19_135)] sm:w-auto sm:px-7 sm:py-4 sm:text-[15px]"
             >
-              Create your invite
+              Get started free
             </a>
             <a
               href="#pricing"
@@ -347,10 +370,10 @@ export default function Home() {
             Your next event deserves a better invite.
           </h2>
           <a
-            href="/create"
+            href="/signup"
             className="inline-block rounded-full bg-[oklch(14%_0.012_250)] px-8 py-4.25 text-[15px] font-bold text-[oklch(95%_0.006_250)] hover:bg-[oklch(24%_0.012_250)]"
           >
-            Create your invite
+            Get started free
           </a>
         </div>
       </div>

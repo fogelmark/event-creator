@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase"
+import { getSupabaseAdmin } from "@/lib/supabase-admin"
 import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
@@ -24,8 +25,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid email" }, { status: 400 })
     }
 
-    // Try to insert or update RSVP (upsert on conflict)
-    const { data, error } = await supabase
+    // Try to insert or update RSVP (upsert on conflict). Goes through the
+    // service-role client because RLS only lets event owners read RSVPs, which
+    // would make returning the row fail for an anonymous guest.
+    const { data, error } = await getSupabaseAdmin()
       .from("rsvps")
       .upsert(
         { event_id, name, email, status },

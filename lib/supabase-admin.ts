@@ -2,7 +2,8 @@ import { createClient, SupabaseClient } from "@supabase/supabase-js"
 
 let adminInstance: SupabaseClient | null = null
 
-// Service-role client — bypasses RLS, so it must only ever run on the server.
+// Service-role client — bypasses RLS, so it must only ever run on the server,
+// and only after verifying user authentication.
 // SUPABASE_SERVICE_ROLE_KEY has no NEXT_PUBLIC_ prefix, so it is undefined in
 // the browser bundle and importing this from a client component will throw.
 export function getSupabaseAdmin() {

@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { InvitePreview } from "@/components/InvitePreview"
+import UserMenu from "@/components/UserMenu"
 
 export default function CreateEvent() {
   const router = useRouter()
@@ -78,15 +79,18 @@ export default function CreateEvent() {
         }),
       })
 
-      if (!res.ok) throw new Error("Failed to create event")
+      if (!res.ok) {
+        const errorData = await res.json()
+        console.error("API Error:", errorData)
+        throw new Error(errorData.error || "Failed to create event")
+      }
 
-      const { id } = await res.json()
-
-      // Land on the event page, where invites are added and sent.
-      router.push(`/dashboard/event/${id}`)
+      router.push(`/dashboard`)
     } catch (error) {
-      console.error(error)
-      alert("Failed to create event. Please try again.")
+      console.error("Create event error:", error)
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred"
+      alert(`Failed to create event: ${errorMessage}`)
     } finally {
       setIsSubmitting(false)
     }
@@ -108,12 +112,15 @@ export default function CreateEvent() {
           >
             SENDIT
           </Link>
-          <Link
-            href="/dashboard"
-            className="text-[12px] font-bold text-[oklch(78%_0.012_250)] hover:text-[oklch(95%_0.006_250)] sm:text-[13px]"
-          >
-            Dashboard
-          </Link>
+          <div className="flex items-center gap-3">
+            <a
+              href="/dashboard"
+              className="text-[12px] font-bold text-[oklch(78%_0.012_250)] hover:text-[oklch(95%_0.006_250)] sm:text-[13px]"
+            >
+              Dashboard
+            </a>
+            <UserMenu />
+          </div>
         </div>
       </div>
 

@@ -1,7 +1,7 @@
-import { supabase } from "@/lib/supabase"
+import { getSupabaseServer } from "@/lib/supabase-server"
 import { getSupabaseAdmin } from "@/lib/supabase-admin"
 import InviteControls from "@/components/InviteControls"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import Link from "next/link"
 
 export const dynamic = "force-dynamic"
@@ -9,6 +9,7 @@ export const revalidate = 0
 
 interface Event {
   id: string
+  user_id: string
   slug: string
   name: string
   date: string
@@ -24,17 +25,6 @@ interface Rsvp {
   email: string
   status: "going" | "maybe" | "not_going"
   created_at: string
-}
-
-async function getEvent(id: string): Promise<Event | null> {
-  const { data, error } = await supabase
-    .from("events")
-    .select("*")
-    .eq("id", id)
-    .single()
-
-  if (error) return null
-  return data
 }
 
 interface Invite {
@@ -58,8 +48,10 @@ async function getInvites(eventId: string): Promise<Invite[]> {
   return data
 }
 
+// RLS only lets the event owner read RSVPs, and the anon key has no user
+// session, so this also goes through the service-role client.
 async function getRsvps(eventId: string): Promise<Rsvp[]> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseAdmin()
     .from("rsvps")
     .select("*")
     .eq("event_id", eventId)
@@ -75,9 +67,29 @@ export default async function EventDetailPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const event = await getEvent(id)
+  const supabase = await getSupabaseServer()
 
-  if (!event) {
+  // Get authenticated user
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    redirect("/login")
+  }
+
+  // Use admin client to fetch data (bypasses RLS issues)
+  const supabaseAdmin = getSupabaseAdmin()
+
+  // Get event and verify ownership
+  const { data: event, error: eventError } = await supabaseAdmin
+    .from("events")
+    .select("*")
+    .eq("id", id)
+    .eq("user_id", user.id)
+    .single()
+
+  if (eventError || !event) {
     notFound()
   }
 
