@@ -13,7 +13,10 @@ export async function POST(request: Request) {
     const {
       data: { session },
     } = await supabase.auth.getSession()
-    console.log("Session check:", { hasSession: !!session, userId: session?.user?.id })
+    console.log("Session check:", {
+      hasSession: !!session,
+      userId: session?.user?.id,
+    })
 
     const {
       data: { user },
@@ -39,7 +42,10 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json()
-    console.log("Request body:", { ...body, image_url: body.image_url ? "present" : "none" })
+    console.log("Request body:", {
+      ...body,
+      image_url: body.image_url ? "present" : "none",
+    })
 
     const { slug, name, date, location, description, image_url, tier_label } =
       body
@@ -92,11 +98,13 @@ export async function POST(request: Request) {
       )
     }
 
-    console.log("Event created successfully:", data.id)
+    // id is returned so the create page can redirect to the event's dashboard,
+    // where invites are added and sent.
     return NextResponse.json({ slug: data.slug, id: data.id })
   } catch (error) {
     console.error("Unexpected API error:", error)
-    const errorMessage = error instanceof Error ? error.message : "Unknown error"
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error"
     return NextResponse.json(
       { error: `Server error: ${errorMessage}` },
       { status: 500 },

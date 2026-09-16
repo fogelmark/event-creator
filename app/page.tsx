@@ -209,7 +209,7 @@ export default async function Home() {
             Built for how the industry actually runs events
           </div>
           <h2 className="m-0 font-(family-name:--font-unbounded) text-[28px] leading-[1.05] font-extrabold sm:text-[42px]">
-            Everything you need. Nothing you don't.
+            Everything you need. Nothing you don&apos;t.
           </h2>
         </div>
         <div className="grid grid-cols-1 gap-px border border-[oklch(24%_0.012_250)] bg-[oklch(24%_0.012_250)] sm:grid-cols-2">
@@ -218,8 +218,8 @@ export default async function Home() {
               Custom branding, per event
             </h3>
             <p className="m-0 text-[14.5px] leading-[1.6] text-[oklch(62%_0.012_250)]">
-              Every invite carries your label's look — not a generic ticketing
-              skin. Different artists, different vibes, same builder.
+              Every invite carries your label&apos;s look — not a generic
+              ticketing skin. Different artists, different vibes, same builder.
             </p>
           </div>
           <div className="bg-[oklch(14%_0.012_250)] p-10">
@@ -256,8 +256,8 @@ export default async function Home() {
       <div className="border-t border-b border-[oklch(24%_0.012_250)] bg-[oklch(20%_0.012_250)] px-4 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-180 text-center">
           <h2 className="m-0 mb-4 font-(family-name:--font-unbounded) text-[24px] leading-[1.2] font-extrabold sm:mb-5 sm:text-4xl">
-            You're not running a music festival. You don't need a platform built
-            for one.
+            You&apos;re not running a music festival. You don&apos;t need a
+            platform built for one.
           </h2>
           <p className="m-0 text-[15px] leading-[1.6] text-[oklch(68%_0.012_250)] sm:text-[17px]">
             SENDIT skips the ticketing fees, the CRM modules, and the enterprise

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { InvitePreview } from "@/components/InvitePreview"
 import UserMenu from "@/components/UserMenu"
 
@@ -84,13 +85,11 @@ export default function CreateEvent() {
         throw new Error(errorData.error || "Failed to create event")
       }
 
-      const data = await res.json()
-      console.log("Event created successfully:", data)
-
       router.push(`/dashboard`)
     } catch (error) {
       console.error("Create event error:", error)
-      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred"
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred"
       alert(`Failed to create event: ${errorMessage}`)
     } finally {
       setIsSubmitting(false)
@@ -107,12 +106,12 @@ export default function CreateEvent() {
       {/* Header */}
       <div className="border-b border-[oklch(24%_0.012_250)]">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-8 sm:py-7">
-          <a
+          <Link
             href="/"
             className="font-(family-name:--font-unbounded) text-lg font-extrabold tracking-[0.02em] text-[oklch(95%_0.006_250)] sm:text-xl"
           >
             SENDIT
-          </a>
+          </Link>
           <div className="flex items-center gap-3">
             <a
               href="/dashboard"

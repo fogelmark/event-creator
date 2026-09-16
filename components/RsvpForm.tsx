@@ -124,7 +124,7 @@ export default function RsvpForm({ eventId }: RsvpFormProps) {
                 : "bg-[oklch(20%_0.012_250)] text-[oklch(78%_0.012_250)] hover:bg-[oklch(24%_0.012_250)]"
             }`}
           >
-            Can't go
+            Can&apos;t go
           </button>
         </div>
       </div>

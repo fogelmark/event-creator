@@ -81,7 +81,7 @@ export default function SignupPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(14%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] focus:border-[oklch(78%_0.19_135)] focus:outline-none"
+                className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(14%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] focus:outline-none"
                 placeholder="your@email.com"
               />
             </div>
@@ -99,7 +99,7 @@ export default function SignupPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(14%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] focus:border-[oklch(78%_0.19_135)] focus:outline-none"
+                className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(14%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] focus:outline-none"
                 placeholder="••••••••"
               />
             </div>
@@ -117,13 +117,13 @@ export default function SignupPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(14%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] focus:border-[oklch(78%_0.19_135)] focus:outline-none"
+                className="w-full rounded-lg border border-[oklch(30%_0.012_250)] bg-[oklch(14%_0.012_250)] px-4 py-3 text-[oklch(95%_0.006_250)] focus:outline-none"
                 placeholder="••••••••"
               />
             </div>
 
             {error && (
-              <div className="rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-400">
+              <div className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400">
                 {error}
               </div>
             )}

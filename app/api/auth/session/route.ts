@@ -6,10 +6,7 @@ export async function POST(request: Request) {
     const { access_token, refresh_token } = await request.json()
 
     if (!access_token || !refresh_token) {
-      return NextResponse.json(
-        { error: "Missing tokens" },
-        { status: 400 },
-      )
+      return NextResponse.json({ error: "Missing tokens" }, { status: 400 })
     }
 
     const cookieStore = await cookies()

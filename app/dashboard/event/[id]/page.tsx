@@ -1,5 +1,6 @@
 import { getSupabaseServer } from "@/lib/supabase-server"
 import { getSupabaseAdmin } from "@/lib/supabase-admin"
+import InviteControls from "@/components/InviteControls"
 import { notFound, redirect } from "next/navigation"
 import Link from "next/link"
 
@@ -24,6 +25,40 @@ interface Rsvp {
   email: string
   status: "going" | "maybe" | "not_going"
   created_at: string
+}
+
+interface Invite {
+  id: string
+  email: string
+  name: string | null
+  sent_at: string | null
+  send_error: string | null
+}
+
+// Read through the service-role client: the invites table denies the anon key,
+// since its rows contain secret RSVP tokens.
+async function getInvites(eventId: string): Promise<Invite[]> {
+  const { data, error } = await getSupabaseAdmin()
+    .from("invites")
+    .select("id, email, name, sent_at, send_error")
+    .eq("event_id", eventId)
+    .order("created_at", { ascending: true })
+
+  if (error) return []
+  return data
+}
+
+// RLS only lets the event owner read RSVPs, and the anon key has no user
+// session, so this also goes through the service-role client.
+async function getRsvps(eventId: string): Promise<Rsvp[]> {
+  const { data, error } = await getSupabaseAdmin()
+    .from("rsvps")
+    .select("*")
+    .eq("event_id", eventId)
+    .order("created_at", { ascending: false })
+
+  if (error) return []
+  return data
 }
 
 export default async function EventDetailPage({
@@ -58,14 +93,10 @@ export default async function EventDetailPage({
     notFound()
   }
 
-  // Get RSVPs for this event
-  const { data: rsvps, error: rsvpsError } = await supabaseAdmin
-    .from("rsvps")
-    .select("*")
-    .eq("event_id", id)
-    .order("created_at", { ascending: false })
+  const [rsvps, invites] = await Promise.all([getRsvps(id), getInvites(id)])
 
-  const eventRsvps = rsvps || []
+  const rsvpByEmail = new Map(rsvps.map((rsvp) => [rsvp.email, rsvp]))
+  const pendingInvites = invites.filter((invite) => !invite.sent_at)
 
   const formatDate = (dateStr: string) => {
     const d = new Date(dateStr)
@@ -87,9 +118,9 @@ export default async function EventDetailPage({
   }
 
   const statusCounts = {
-    going: eventRsvps.filter((r) => r.status === "going").length,
-    maybe: eventRsvps.filter((r) => r.status === "maybe").length,
-    not_going: eventRsvps.filter((r) => r.status === "not_going").length,
+    going: rsvps.filter((r) => r.status === "going").length,
+    maybe: rsvps.filter((r) => r.status === "maybe").length,
+    not_going: rsvps.filter((r) => r.status === "not_going").length,
   }
 
   const getStatusLabel = (status: string) => {
@@ -162,7 +193,7 @@ export default async function EventDetailPage({
           </div>
           <div className="rounded-lg bg-[oklch(20%_0.012_250)] p-3 sm:p-4">
             <p className="text-[11px] text-[oklch(78%_0.012_250)] sm:text-[13px]">
-              Can't go
+              Can&apos;t go
             </p>
             <p className="font-(family-name:--font-unbounded) text-xl font-bold text-[oklch(50%_0.012_250)] sm:text-2xl">
               {statusCounts.not_going}
@@ -170,13 +201,85 @@ export default async function EventDetailPage({
           </div>
         </div>
 
+        {/* Invites */}
+        <div className="mb-6 sm:mb-8">
+          <div className="mb-3 flex items-baseline justify-between sm:mb-4">
+            <h2 className="font-(family-name:--font-unbounded) text-lg font-bold text-[oklch(95%_0.006_250)] sm:text-xl">
+              Invites ({invites.length})
+            </h2>
+            <span className="text-[12px] text-[oklch(68%_0.012_250)] sm:text-[13px]">
+              {invites.length - pendingInvites.length} sent ·{" "}
+              {pendingInvites.length} pending
+            </span>
+          </div>
+
+          <InviteControls
+            eventId={event.id}
+            pendingCount={pendingInvites.length}
+          />
+
+          {invites.length > 0 && (
+            <div className="mt-3 space-y-2">
+              {invites.map((invite) => {
+                const rsvp = rsvpByEmail.get(invite.email)
+                return (
+                  <div
+                    key={invite.id}
+                    className="flex flex-col gap-2 rounded-lg bg-[oklch(20%_0.012_250)] p-3 sm:flex-row sm:items-center sm:justify-between sm:p-4"
+                  >
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-bold text-[oklch(95%_0.006_250)]">
+                        {invite.name || invite.email}
+                      </p>
+                      {invite.name && (
+                        <p className="truncate text-[12px] text-[oklch(78%_0.012_250)] sm:text-[13px]">
+                          {invite.email}
+                        </p>
+                      )}
+                      {invite.send_error && (
+                        <p className="mt-1 text-[11px] text-[oklch(65%_0.15_80)]">
+                          {invite.send_error}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex shrink-0 items-center gap-2">
+                      {rsvp && (
+                        <span
+                          className={`rounded-full px-3 py-1 text-[11px] font-bold ${getStatusColor(rsvp.status)}`}
+                        >
+                          {getStatusLabel(rsvp.status)}
+                        </span>
+                      )}
+                      <span
+                        className={`rounded-full px-3 py-1 text-[11px] font-bold ${
+                          invite.send_error
+                            ? "bg-[oklch(30%_0.08_30)] text-[oklch(85%_0.1_30)]"
+                            : invite.sent_at
+                              ? "bg-[oklch(24%_0.012_250)] text-[oklch(78%_0.012_250)]"
+                              : "bg-[oklch(24%_0.012_250)] text-[oklch(65%_0.15_80)]"
+                        }`}
+                      >
+                        {invite.send_error
+                          ? "Failed"
+                          : invite.sent_at
+                            ? "Sent"
+                            : "Pending"}
+                      </span>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </div>
+
         {/* RSVPs List */}
         <div>
           <h2 className="mb-3 font-(family-name:--font-unbounded) text-lg font-bold text-[oklch(95%_0.006_250)] sm:mb-4 sm:text-xl">
-            All RSVPs ({eventRsvps.length})
+            All RSVPs ({rsvps.length})
           </h2>
 
-          {eventRsvps.length === 0 ? (
+          {rsvps.length === 0 ? (
             <div className="rounded-lg bg-[oklch(20%_0.012_250)] p-6 text-center sm:p-8">
               <p className="text-[13px] text-[oklch(78%_0.012_250)] sm:text-[14px]">
                 No RSVPs yet
@@ -184,7 +287,7 @@ export default async function EventDetailPage({
             </div>
           ) : (
             <div className="space-y-2">
-              {eventRsvps.map((rsvp) => (
+              {rsvps.map((rsvp) => (
                 <div
                   key={rsvp.id}
                   className="flex flex-col gap-3 rounded-lg bg-[oklch(20%_0.012_250)] p-3 sm:flex-row sm:items-center sm:justify-between sm:p-4"

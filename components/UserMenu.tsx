@@ -41,7 +41,7 @@ export default function UserMenu() {
             className="fixed inset-0 z-10"
             onClick={() => setIsOpen(false)}
           ></div>
-          <div className="absolute right-0 top-full z-20 mt-2 w-48 rounded-lg border border-[oklch(28%_0.012_250)] bg-[oklch(20%_0.012_250)] py-2 shadow-xl">
+          <div className="absolute top-full right-0 z-20 mt-2 w-48 rounded-lg border border-[oklch(28%_0.012_250)] bg-[oklch(20%_0.012_250)] py-2 shadow-xl">
             <div className="border-b border-[oklch(28%_0.012_250)] px-4 py-2">
               <p className="truncate text-[12px] text-[oklch(90%_0.006_250)]">
                 {userEmail}
