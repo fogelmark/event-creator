@@ -1,5 +1,5 @@
 import { sendEventInvites } from "@/lib/email"
-import { getSupabaseAdmin } from "@/lib/supabase-admin"
+import { getSupabaseServer } from "@/lib/supabase-server"
 import { NextResponse } from "next/server"
 
 // Sends pending invites for an event.
@@ -10,6 +10,13 @@ import { NextResponse } from "next/server"
 // send mail from the verified domain.
 export async function POST(request: Request) {
   try {
+    const supabase = await getSupabaseServer()
+    const { data: authData, error: authError } = await supabase.auth.getClaims()
+
+    if (authError || !authData?.claims.sub) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
     const { event_id, resend_all } = await request.json()
 
     if (!event_id) {
@@ -19,9 +26,8 @@ export async function POST(request: Request) {
       )
     }
 
-    const supabaseAdmin = getSupabaseAdmin()
-
-    const { data: event, error: eventError } = await supabaseAdmin
+    // RLS only exposes events owned by the authenticated organizer.
+    const { data: event, error: eventError } = await supabase
       .from("events")
       .select("slug, name, date, location, tier_label, description, image_url")
       .eq("id", event_id)
@@ -31,7 +37,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Event not found" }, { status: 404 })
     }
 
-    let query = supabaseAdmin
+    let query = supabase
       .from("invites")
       .select("id, email, name, token")
       .eq("event_id", event_id)
@@ -57,16 +63,18 @@ export async function POST(request: Request) {
     const sentAt = new Date().toISOString()
 
     await Promise.all(
-      results.map((result) =>
-        supabaseAdmin
+      results.map(async (result) => {
+        const { error } = await supabase
           .from("invites")
           .update(
             result.error
               ? { send_error: result.error }
               : { sent_at: sentAt, send_error: null },
           )
-          .eq("id", result.inviteId),
-      ),
+          .eq("id", result.inviteId)
+
+        if (error) throw error
+      }),
     )
 
     const failed = results.filter((result) => result.error)

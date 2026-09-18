@@ -1,4 +1,5 @@
-import { createClient, SupabaseClient } from "@supabase/supabase-js"
+import { createBrowserClient } from "@supabase/ssr"
+import type { SupabaseClient } from "@supabase/supabase-js"
 
 let supabaseInstance: SupabaseClient | null = null
 
@@ -9,25 +10,20 @@ export function getSupabase() {
   }
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabasePublishableKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const supabasePublishableKey =
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
 
   if (!supabaseUrl || !supabasePublishableKey) {
     throw new Error(
-      "Missing Supabase environment variables. Make sure NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set.",
+      "Missing Supabase environment variables. Make sure NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY are set.",
     )
   }
 
-  // Note: ANON_KEY is the same as the "publishable" key - safe to use in browser with RLS enabled
-  supabaseInstance = createClient(supabaseUrl, supabasePublishableKey, {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-    },
-  })
+  supabaseInstance = createBrowserClient(supabaseUrl, supabasePublishableKey)
   return supabaseInstance
 }
 
-// Export for convenience (backwards compatibility)
+// Temporary backwards-compatible wrapper. Remove after its call sites migrate.
 export const supabase = {
   get client() {
     return getSupabase()

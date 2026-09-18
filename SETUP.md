@@ -5,12 +5,14 @@
 ### 1. Set up Supabase
 
 1. Go to [supabase.com](https://supabase.com) and create a new project
-2. Once your project is created, go to the **SQL Editor** and run the SQL from `supabase-schema.sql` to create the events table
-   - This will create the `events` table
-   - **Enable Row Level Security (RLS)** on the table
-   - Set up policies for public read/insert access (already included in the SQL)
+2. In the **SQL Editor**, run these files in order:
+   1. `supabase-schema.sql`
+   2. `supabase-invites-schema.sql`
+   3. `supabase-public-rsvp-migration.sql`
+      These create the tables, enable RLS, add organizer ownership policies, and
+      expose only narrowly scoped anonymous RSVP functions.
 3. Go to **Settings** → **API**
-4. Copy your **Project URL** and **anon public (publishable) key**
+4. Copy your **Project URL** and **publishable key**
    - ✅ The publishable key is safe to use in the browser because RLS is enabled
    - ⚠️ Make sure you've run the SQL schema first to enable RLS!
 
@@ -27,11 +29,7 @@ Create a `.env.local` file in the project root:
 ```bash
 # Supabase
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-
-# Supabase service role — server-side only, NEVER prefix with NEXT_PUBLIC_
-# Settings → API → service_role. Needed to read/write the invites table.
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
 
 # Vercel Blob
 BLOB_READ_WRITE_TOKEN=your-blob-token
@@ -46,11 +44,10 @@ RESEND_API_KEY=your-resend-key
 # NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-### 3b. Set up invites
+### 3b. Set up email delivery
 
-1. Run `supabase-invites-schema.sql` in the Supabase SQL Editor (after `supabase-schema.sql`)
-2. Create a free account at [resend.com](https://resend.com) and copy an API key
-3. To send to real recipients, go to Resend → **Domains** → **Add Domain**, add the
+1. Create a free account at [resend.com](https://resend.com) and copy an API key
+2. To send to real recipients, go to Resend → **Domains** → **Add Domain**, add the
    DNS records it shows you, then set `RESEND_FROM` to an address on that domain
 
 ### 4. Install Dependencies
@@ -78,15 +75,6 @@ Visit [http://localhost:3000](http://localhost:3000)
 ✅ Responsive mobile-first design
 ✅ Invite lists per event, added at creation or from the dashboard
 ✅ Branded invite emails via Resend with one-click RSVP links
-
-## 🎯 Next Steps
-
-- [ ] RSVP functionality
-- [ ] Event dashboard
-- [ ] RSVP management
-- [ ] Authentication (Supabase Auth) — **needed before invites are safe in public**
-- [ ] Lock down RLS on `rsvps` (currently world-readable, world-updatable)
-- [ ] Guest tiers (VIP, Press, General)
 
 ## 🗂️ Project Structure
 

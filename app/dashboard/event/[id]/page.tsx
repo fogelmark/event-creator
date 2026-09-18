@@ -1,23 +1,11 @@
 import { getSupabaseServer } from "@/lib/supabase-server"
-import { getSupabaseAdmin } from "@/lib/supabase-admin"
+import type { SupabaseClient } from "@supabase/supabase-js"
 import InviteControls from "@/components/InviteControls"
 import { notFound, redirect } from "next/navigation"
 import Link from "next/link"
 
 export const dynamic = "force-dynamic"
 export const revalidate = 0
-
-interface Event {
-  id: string
-  user_id: string
-  slug: string
-  name: string
-  date: string
-  location: string
-  description: string | null
-  image_url: string | null
-  tier_label: string
-}
 
 interface Rsvp {
   id: string
@@ -35,29 +23,35 @@ interface Invite {
   send_error: string | null
 }
 
-// Read through the service-role client: the invites table denies the anon key,
-// since its rows contain secret RSVP tokens.
-async function getInvites(eventId: string): Promise<Invite[]> {
-  const { data, error } = await getSupabaseAdmin()
+async function getInvites(
+  supabase: SupabaseClient,
+  eventId: string,
+): Promise<Invite[]> {
+  const { data, error } = await supabase
     .from("invites")
     .select("id, email, name, sent_at, send_error")
     .eq("event_id", eventId)
     .order("created_at", { ascending: true })
 
-  if (error) return []
+  if (error) {
+    throw new Error(`Failed to load invites: ${error.message}`)
+  }
   return data
 }
 
-// RLS only lets the event owner read RSVPs, and the anon key has no user
-// session, so this also goes through the service-role client.
-async function getRsvps(eventId: string): Promise<Rsvp[]> {
-  const { data, error } = await getSupabaseAdmin()
+async function getRsvps(
+  supabase: SupabaseClient,
+  eventId: string,
+): Promise<Rsvp[]> {
+  const { data, error } = await supabase
     .from("rsvps")
     .select("*")
     .eq("event_id", eventId)
     .order("created_at", { ascending: false })
 
-  if (error) return []
+  if (error) {
+    throw new Error(`Failed to load RSVPs: ${error.message}`)
+  }
   return data
 }
 
@@ -78,22 +72,21 @@ export default async function EventDetailPage({
     redirect("/login")
   }
 
-  // Use admin client to fetch data (bypasses RLS issues)
-  const supabaseAdmin = getSupabaseAdmin()
-
-  // Get event and verify ownership
-  const { data: event, error: eventError } = await supabaseAdmin
+  // RLS makes events belonging to other users invisible to this query.
+  const { data: event, error: eventError } = await supabase
     .from("events")
     .select("*")
     .eq("id", id)
-    .eq("user_id", user.id)
     .single()
 
   if (eventError || !event) {
     notFound()
   }
 
-  const [rsvps, invites] = await Promise.all([getRsvps(id), getInvites(id)])
+  const [rsvps, invites] = await Promise.all([
+    getRsvps(supabase, id),
+    getInvites(supabase, id),
+  ])
 
   const rsvpByEmail = new Map(rsvps.map((rsvp) => [rsvp.email, rsvp]))
   const pendingInvites = invites.filter((invite) => !invite.sent_at)

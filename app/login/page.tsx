@@ -1,12 +1,11 @@
 "use client"
 
 import { useState, Suspense } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { signIn } from "@/lib/auth"
 import Link from "next/link"
 
 function LoginForm() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -120,7 +119,7 @@ function LoginForm() {
           </form>
 
           <div className="mt-6 text-center text-sm text-[oklch(68%_0.012_250)]">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link
               href="/signup"
               className="font-semibold text-[oklch(78%_0.19_135)] hover:underline"

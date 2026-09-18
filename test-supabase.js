@@ -5,7 +5,7 @@
 // const { createClient } = require("@supabase/supabase-js")
 
 // const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-// const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+// const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
 
 // console.log("🔍 Testing Supabase connection...\n")
 // console.log("URL:", supabaseUrl ? "✅ Set" : "❌ Missing")
@@ -16,7 +16,7 @@
 //   console.error("❌ Missing environment variables!")
 //   console.log("\nMake sure you have created .env.local with:")
 //   console.log("NEXT_PUBLIC_SUPABASE_URL=your-url")
-//   console.log("NEXT_PUBLIC_SUPABASE_ANON_KEY=your-key")
+//   console.log("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...")
 //   process.exit(1)
 // }
 
