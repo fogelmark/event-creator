@@ -41,7 +41,7 @@ export default function SignupPage() {
       // You can redirect to a "check your email" page or auto-login
       router.push("/dashboard")
       router.refresh()
-    } catch (err) {
+    } catch {
       setError("An unexpected error occurred")
     } finally {
       setIsLoading(false)

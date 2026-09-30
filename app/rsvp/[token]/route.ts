@@ -1,17 +1,11 @@
-import { displayNameFor, RSVP_STATUSES, RsvpStatus } from "@/lib/invites"
-import { getSupabaseAdmin } from "@/lib/supabase-admin"
+import { RSVP_STATUSES, RsvpStatus } from "@/lib/invites"
+import { getSupabasePublic } from "@/lib/supabase-public"
 import { NextResponse } from "next/server"
-
-interface InviteRow {
-  id: string
-  email: string
-  name: string | null
-  event_id: string
-  events: { slug: string } | null
-}
 
 // One-click RSVP from an invite email. Email clients strip <form> elements, so
 // each RSVP option is a plain link carrying the invite token and the status.
+// TODO: Replace this mutating GET with a confirmation page plus POST. Email
+// security scanners may open links automatically and submit accidental RSVPs.
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ token: string }> },
@@ -27,36 +21,23 @@ export async function GET(
   }
 
   try {
-    const supabaseAdmin = getSupabaseAdmin()
+    const { data: eventSlug, error } = await getSupabasePublic().rpc(
+      "submit_invite_rsvp",
+      {
+        p_token: token,
+        p_status: status,
+      },
+    )
 
-    const { data: invite, error } = await supabaseAdmin
-      .from("invites")
-      .select("id, email, name, event_id, events(slug)")
-      .eq("token", token)
-      .single<InviteRow>()
-
-    if (error || !invite || !invite.events) {
+    if (error || !eventSlug) {
       return NextResponse.redirect(
         new URL("/?invite=not_found", request.url),
         303,
       )
     }
 
-    const { error: rsvpError } = await supabaseAdmin.from("rsvps").upsert(
-      {
-        event_id: invite.event_id,
-        invite_id: invite.id,
-        name: displayNameFor({ email: invite.email, name: invite.name }),
-        email: invite.email,
-        status,
-      },
-      { onConflict: "event_id,email" },
-    )
-
-    if (rsvpError) throw rsvpError
-
     return NextResponse.redirect(
-      new URL(`/i/${invite.events.slug}?rsvp=${status}`, request.url),
+      new URL(`/i/${eventSlug}?rsvp=${status}`, request.url),
       303,
     )
   } catch (err) {

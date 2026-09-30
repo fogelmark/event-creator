@@ -1,5 +1,5 @@
-import { getSupabaseAdmin } from "@/lib/supabase-admin"
 import { generateInviteToken, parseInviteList } from "@/lib/invites"
+import { getSupabaseServer } from "@/lib/supabase-server"
 import { NextResponse } from "next/server"
 
 // Guards against someone pasting an enormous list and running up the Resend bill.
@@ -8,6 +8,13 @@ const MAX_INVITES_PER_EVENT = 500
 // Add invites to an event. Accepts a raw pasted list of addresses.
 export async function POST(request: Request) {
   try {
+    const supabase = await getSupabaseServer()
+    const { data: authData, error: authError } = await supabase.auth.getClaims()
+
+    if (authError || !authData?.claims.sub) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
     const body = await request.json()
     const { event_id, emails } = body
 
@@ -26,12 +33,23 @@ export async function POST(request: Request) {
       )
     }
 
-    const supabaseAdmin = getSupabaseAdmin()
+    // Confirm ownership through RLS before counting or inserting invites.
+    const { data: event } = await supabase
+      .from("events")
+      .select("id")
+      .eq("id", event_id)
+      .maybeSingle()
 
-    const { count: existingCount } = await supabaseAdmin
+    if (!event) {
+      return NextResponse.json({ error: "Event not found" }, { status: 404 })
+    }
+
+    const { count: existingCount, error: countError } = await supabase
       .from("invites")
       .select("id", { count: "exact", head: true })
       .eq("event_id", event_id)
+
+    if (countError) throw countError
 
     if ((existingCount ?? 0) + invites.length > MAX_INVITES_PER_EVENT) {
       return NextResponse.json(
@@ -49,7 +67,7 @@ export async function POST(request: Request) {
 
     // ignoreDuplicates keeps existing invites (and their tokens) intact when the
     // same address is pasted again, rather than re-issuing a token.
-    const { data, error } = await supabaseAdmin
+    const { data, error } = await supabase
       .from("invites")
       .upsert(rows, { onConflict: "event_id,email", ignoreDuplicates: true })
       .select()
@@ -76,6 +94,13 @@ export async function POST(request: Request) {
 // List invites for an event.
 export async function GET(request: Request) {
   try {
+    const supabase = await getSupabaseServer()
+    const { data: authData, error: authError } = await supabase.auth.getClaims()
+
+    if (authError || !authData?.claims.sub) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
     const { searchParams } = new URL(request.url)
     const eventId = searchParams.get("event_id")
 
@@ -86,7 +111,7 @@ export async function GET(request: Request) {
       )
     }
 
-    const { data, error } = await getSupabaseAdmin()
+    const { data, error } = await supabase
       .from("invites")
       .select("id, email, name, sent_at, send_error, created_at")
       .eq("event_id", eventId)

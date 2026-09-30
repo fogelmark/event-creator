@@ -25,28 +25,48 @@ ALTER TABLE events ENABLE ROW LEVEL Security;
 -- Allow users to read their own events
 CREATE POLICY "Users can view own events" ON events
   FOR SELECT
-  USING (auth.uid() = user_id);
+  TO authenticated
+  USING ((SELECT auth.uid()) = user_id);
 
 -- Allow users to insert their own events
 CREATE POLICY "Users can insert own events" ON events
   FOR INSERT
-  WITH CHECK (auth.uid() = user_id);
+  TO authenticated
+  WITH CHECK ((SELECT auth.uid()) = user_id);
 
 -- Allow users to update their own events
 CREATE POLICY "Users can update own events" ON events
   FOR UPDATE
-  USING (auth.uid() = user_id)
-  WITH CHECK (auth.uid() = user_id);
+  TO authenticated
+  USING ((SELECT auth.uid()) = user_id)
+  WITH CHECK ((SELECT auth.uid()) = user_id);
 
 -- Allow users to delete their own events
 CREATE POLICY "Users can delete own events" ON events
   FOR DELETE
-  USING (auth.uid() = user_id);
+  TO authenticated
+  USING ((SELECT auth.uid()) = user_id);
 
--- Allow public read access to events via slug (for public invite pages)
-CREATE POLICY "Public can view events by slug" ON events
+-- Public invite pages can read safe event details without login. RLS cannot
+-- enforce that a query filters by slug, so restrict anon access by column too.
+CREATE POLICY "Anonymous users can view public events" ON events
   FOR SELECT
+  TO anon
   USING (true);
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON events TO authenticated;
+REVOKE SELECT ON events FROM anon;
+GRANT SELECT (
+  id,
+  slug,
+  name,
+  date,
+  location,
+  description,
+  image_url,
+  tier_label,
+  created_at
+) ON events TO anon;
 
 -- Function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -83,21 +103,14 @@ ALTER TABLE rsvps ENABLE ROW LEVEL SECURITY;
 -- Allow event owners to view RSVPs for their events
 CREATE POLICY "Event owners can view RSVPs" ON rsvps
   FOR SELECT
+  TO authenticated
   USING (
     EXISTS (
       SELECT 1 FROM events
       WHERE events.id = rsvps.event_id
-      AND events.user_id = auth.uid()
+      AND events.user_id = (SELECT auth.uid())
     )
   );
 
--- Allow public to insert RSVPs (guests can RSVP without auth)
-CREATE POLICY "Public can insert RSVPs" ON rsvps
-  FOR INSERT
-  WITH CHECK (true);
-
--- Allow public to update RSVPs (guests can change their RSVP)
-CREATE POLICY "Public can update RSVPs" ON rsvps
-  FOR UPDATE
-  USING (true)
-  WITH CHECK (true);
+-- Anonymous RSVP writes are intentionally not granted directly. The scoped
+-- functions in supabase-public-rsvp-migration.sql handle guest submissions.

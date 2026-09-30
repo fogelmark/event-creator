@@ -1,29 +1,15 @@
 import { getSupabaseServer } from "@/lib/supabase-server"
-import { getSupabaseAdmin } from "@/lib/supabase-admin"
+import { getSupabasePublic } from "@/lib/supabase-public"
 import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
   try {
-    console.log("=== CREATE EVENT API CALLED ===")
-
-    // Verify user authentication with regular client
     const supabase = await getSupabaseServer()
-
-    // Check session first
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
-    console.log("Session check:", {
-      hasSession: !!session,
-      userId: session?.user?.id,
-    })
 
     const {
       data: { user },
       error: authError,
     } = await supabase.auth.getUser()
-
-    console.log("Auth check:", { user: user?.id, authError })
 
     if (authError) {
       console.error("Auth error:", authError)
@@ -42,10 +28,6 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json()
-    console.log("Request body:", {
-      ...body,
-      image_url: body.image_url ? "present" : "none",
-    })
 
     const { slug, name, date, location, description, image_url, tier_label } =
       body
@@ -69,13 +51,8 @@ export async function POST(request: Request) {
       tier_label: tier_label || "VIP + Press only",
     }
 
-    console.log("Inserting event:", eventData)
-
-    // Use admin client to bypass RLS (we already verified user above)
-    const supabaseAdmin = getSupabaseAdmin()
-
-    // Insert event into Supabase with user_id
-    const { data, error } = await supabaseAdmin
+    // The insert policy verifies that user_id matches the authenticated user.
+    const { data, error } = await supabase
       .from("events")
       .insert([eventData])
       .select()
@@ -121,12 +98,11 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Slug required" }, { status: 400 })
     }
 
-    // Use admin client for public event lookup (no auth required)
-    const supabaseAdmin = getSupabaseAdmin()
-
-    const { data, error } = await supabaseAdmin
+    const { data, error } = await getSupabasePublic()
       .from("events")
-      .select("*")
+      .select(
+        "id, slug, name, date, location, description, image_url, tier_label, created_at",
+      )
       .eq("slug", slug)
       .single()
 

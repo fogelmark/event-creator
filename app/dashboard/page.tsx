@@ -1,5 +1,4 @@
 import { getSupabaseServer } from "@/lib/supabase-server"
-import { getSupabaseAdmin } from "@/lib/supabase-admin"
 import Link from "next/link"
 import CopyLinkButton from "@/components/CopyLinkButton"
 import UserMenu from "@/components/UserMenu"
@@ -7,16 +6,6 @@ import { redirect } from "next/navigation"
 
 export const dynamic = "force-dynamic"
 export const revalidate = 0
-
-interface Event {
-  id: string
-  slug: string
-  name: string
-  date: string
-  location: string
-  image_url: string | null
-  created_at: string
-}
 
 export default async function DashboardPage() {
   const supabase = await getSupabaseServer()
@@ -30,14 +19,10 @@ export default async function DashboardPage() {
     redirect("/login")
   }
 
-  // Use admin client to fetch events (bypasses RLS issues)
-  const supabaseAdmin = getSupabaseAdmin()
-
-  // Get only the current user's events
-  const { data: events, error } = await supabaseAdmin
+  // RLS limits this query to events owned by the authenticated user.
+  const { data: events, error } = await supabase
     .from("events")
     .select("*")
-    .eq("user_id", user.id)
     .order("created_at", { ascending: false })
 
   if (error) {
@@ -49,12 +34,17 @@ export default async function DashboardPage() {
   // Get RSVP counts for all events
   const eventsWithCounts = await Promise.all(
     userEvents.map(async (event) => {
-      const { count } = await supabaseAdmin
+      const { count, error: countError } = await supabase
         .from("rsvps")
-        .select("*", { count: "exact", head: true })
+        .select("id", { count: "exact", head: true })
         .eq("event_id", event.id)
 
-      return { ...event, rsvpCount: count || 0 }
+      if (countError) {
+        console.error(`Error counting RSVPs for event ${event.id}:`, countError)
+        return { ...event, rsvpCount: null }
+      }
+
+      return { ...event, rsvpCount: count ?? 0 }
     }),
   )
 
@@ -152,7 +142,9 @@ export default async function DashboardPage() {
                     {formatDate(event.date)} · {event.location}
                   </p>
                   <p className="mt-1 text-[12px] text-[oklch(78%_0.19_135)] sm:text-[13px]">
-                    {event.rsvpCount} {event.rsvpCount === 1 ? "RSVP" : "RSVPs"}
+                    {event.rsvpCount === null
+                      ? "Unable to load RSVPs"
+                      : `${event.rsvpCount} ${event.rsvpCount === 1 ? "RSVP" : "RSVPs"}`}
                   </p>
                 </div>
 

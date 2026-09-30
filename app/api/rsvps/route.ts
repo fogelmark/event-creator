@@ -1,5 +1,5 @@
-import { supabase } from "@/lib/supabase"
-import { getSupabaseAdmin } from "@/lib/supabase-admin"
+import { getSupabasePublic } from "@/lib/supabase-public"
+import { getSupabaseServer } from "@/lib/supabase-server"
 import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
@@ -25,21 +25,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid email" }, { status: 400 })
     }
 
-    // Try to insert or update RSVP (upsert on conflict). Goes through the
-    // service-role client because RLS only lets event owners read RSVPs, which
-    // would make returning the row fail for an anonymous guest.
-    const { data, error } = await getSupabaseAdmin()
-      .from("rsvps")
-      .upsert(
-        { event_id, name, email, status },
-        { onConflict: "event_id,email" },
-      )
-      .select()
-      .single()
+    const { error } = await getSupabasePublic().rpc("submit_public_rsvp", {
+      p_event_id: event_id,
+      p_name: name,
+      p_email: email,
+      p_status: status,
+    })
 
     if (error) throw error
 
-    return NextResponse.json({ success: true, rsvp: data })
+    return NextResponse.json({ success: true })
   } catch (error) {
     console.error("RSVP error:", error)
     return NextResponse.json(
@@ -52,6 +47,13 @@ export async function POST(request: Request) {
 // Get RSVPs for an event
 export async function GET(request: Request) {
   try {
+    const supabase = await getSupabaseServer()
+    const { data: authData, error: authError } = await supabase.auth.getClaims()
+
+    if (authError || !authData?.claims.sub) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
     const { searchParams } = new URL(request.url)
     const eventId = searchParams.get("event_id")
 
